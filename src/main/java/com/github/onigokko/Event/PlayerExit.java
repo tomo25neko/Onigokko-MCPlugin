@@ -16,6 +16,5 @@ public class PlayerExit implements Listener {
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         scoreboardManager.setScore("総プレイヤー数: %d人", Bukkit.getOnlinePlayers().size(), 10);
-        scoreboardManager.showScoreboard();
     }
 }

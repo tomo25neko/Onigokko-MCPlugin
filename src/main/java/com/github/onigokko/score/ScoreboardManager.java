@@ -36,28 +36,42 @@ public class ScoreboardManager {
 
     //スコアボードに登録　keyでセットしてvalueが値
     public void setScore(String key, int amount,int value) {
-        if (key.contains("%d")) {
-            key = String.format(key, amount);
-        }
-        String entry = ChatColor.GREEN + key;
+        // %d を含む場合は置換して完全な文字列を生成
+        String formattedKey = key.contains("%d") ? String.format(key, amount) : key;
+        String newEntry = ChatColor.GREEN + formattedKey;
 
-        // 変更前のスコアを削除（プレフィックスが一致するものを削除）
+        // 新しいエントリからカラーコードを除去
+        String strippedNewEntry = ChatColor.stripColor(newEntry);
+        // 最初の空白までの部分を固定部分とする
+        int spaceIndex = strippedNewEntry.indexOf(" ");//残り時間: %d秒　→ 残り時間:
+        String newPrefix = (spaceIndex > 0) ? strippedNewEntry.substring(0, spaceIndex) : strippedNewEntry;
+
+
+        // 現在のスコアボードにある各エントリについて、カラーコード除去後に固定部分を取得し、比較する
         for (String existingEntry : scoreboard.getEntries()) {
-            if (existingEntry.startsWith(ChatColor.GREEN + key.replace("%d", ""))) {
+            String strippedExistingEntry = ChatColor.stripColor(existingEntry);
+            int idx = strippedExistingEntry.indexOf(" ");
+            String existingPrefix = (idx > 0) ? strippedExistingEntry.substring(0, idx) : strippedExistingEntry;
+            if (existingPrefix.equals(newPrefix)) {
+                // 固定部分が一致すれば、既存のエントリを削除する
                 scoreboard.resetScores(existingEntry);
             }
         }
 
         // 新しいスコアを設定(valueは表示順位)
-        objective.getScore(entry).setScore(value); // スコアの設定と順番の設定
+        objective.getScore(newEntry).setScore(value); // スコアの設定と順番の設定
     }
 
 
-    //全プレイヤーにスコアボードの表示
-    public void showScoreboard() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.setScoreboard(scoreboard);
-        }
+//    全プレイヤーにスコアボードの表示 testが成功すれば廃止予定
+//    public void showScoreboard() {
+//        for (Player player : Bukkit.getOnlinePlayers()) {
+//            player.setScoreboard(scoreboard);
+//        }
+//    }
+    //testコード プレイヤーのサイドバーにスコアボードを表示。
+    public void showScorebordToPlayer(Player p) {
+        p.setScoreboard(scoreboard);
     }
 
     //スコアボードの削除(表示)
