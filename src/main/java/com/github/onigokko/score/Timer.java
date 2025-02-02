@@ -14,7 +14,7 @@ public class Timer {
     public Timer(Plugin plugin,ScoreboardManager sbManager) {
         this.plugin = plugin;
         this.sbManager = sbManager;
-        sbManager.setScore("ゲーム時間:未設定",0,9);
+        sbManager.setScore("ゲーム時間: 未設定",0,9);
     }
     //時間の設定
     public void setTime(int time) {
