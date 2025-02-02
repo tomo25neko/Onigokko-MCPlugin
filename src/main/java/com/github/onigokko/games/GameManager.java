@@ -5,7 +5,7 @@ import com.github.onigokko.score.TeamManager;
 
 public class GameManager {
 
-    //ゲーム状態保存
+    //ゲームモードの保存
     private GameModeManager gameModeManager;
 
     private final TeamManager teamManager;
