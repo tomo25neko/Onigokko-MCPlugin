@@ -17,7 +17,7 @@ public class ScoreboardManager {
         setDefaultScoreboard();
     }
 
-    //他のクラスが使うためのスコアボードを渡す
+    //他のクラスが使うためのスコアボードを渡す　必要なければ後に削除
     public Scoreboard getScoreboard() {
         return scoreboard;
     }
@@ -85,6 +85,5 @@ public class ScoreboardManager {
             player.setScoreboard(emptyBoard);
         }
     }
-
 
 }

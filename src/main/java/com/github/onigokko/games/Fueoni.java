@@ -16,6 +16,7 @@ public class Fueoni implements GameModeManager {
         teamManager.removeTeams();
         teamManager.createOniTeams("鬼");
         teamManager.createNigeTeams("逃げ");
+        //スコアボードの表記を変更
         teamManager.setGameMode("増やし鬼");
     }
 
