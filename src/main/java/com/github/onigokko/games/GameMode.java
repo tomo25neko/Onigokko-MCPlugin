@@ -1,6 +1,33 @@
 package com.github.onigokko.games;
 
-public interface GameMode {
+public enum GameMode {
+    // 定数（他のゲームモードが追加される場合を考慮）
+    FUEONI("増やし鬼");
 
-    public void setup();
+    private final String displayName;
+
+    GameMode(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    // ユーザー入力から該当するゲームモードを取得する静的メソッド
+    public static GameMode fromString(String input) {
+        if (input == null || input.trim().isEmpty()) {
+            return null;
+        }
+
+        String normalizedInput = input.trim().toUpperCase();
+        for (GameMode mode : GameMode.values()) {
+            // Enum名 または 表示名と比較
+            if (mode.name().equalsIgnoreCase(normalizedInput) ||
+                    mode.getDisplayName().equalsIgnoreCase(input.trim())) {
+                return mode;
+            }
+        }
+        return null; // 該当なし
+    }
 }

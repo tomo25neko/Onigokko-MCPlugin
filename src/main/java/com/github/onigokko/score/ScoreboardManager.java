@@ -70,8 +70,8 @@ public class ScoreboardManager {
 //        }
 //    }
     //testコード プレイヤーのサイドバーにスコアボードを表示。
-    public void showScorebordToPlayer(Player p) {
-        p.setScoreboard(scoreboard);
+    public void showScorebordToPlayer(Player player) {
+        player.setScoreboard(scoreboard);
     }
 
     //スコアボードの削除(表示)

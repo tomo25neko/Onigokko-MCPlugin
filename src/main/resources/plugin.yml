@@ -9,3 +9,6 @@ commands:
   setgametime:
     description: ゲーム時間設定コマンド/set gametime command
     usage: /setgametime [time]
+  setgamemode:
+    description: ゲームモード設定コマンド/set gamemode command
+    usage: /setgametime [mode]
