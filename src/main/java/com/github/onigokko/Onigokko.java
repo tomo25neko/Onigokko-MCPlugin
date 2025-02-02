@@ -5,6 +5,7 @@ import com.github.onigokko.commands.setGameTime;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.Timer;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
