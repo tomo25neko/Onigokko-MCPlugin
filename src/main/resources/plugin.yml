@@ -4,3 +4,8 @@ main: com.github.onigokko.Onigokko
 api-version: '1.20'
 authors: [ 25tomo ]
 description: spigot鬼ごプラグイン
+
+commands:
+  setgametime:
+    description: ゲーム時間設定コマンド/set gametime command
+    usage: /setgametime [time]
