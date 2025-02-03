@@ -2,6 +2,9 @@ package com.github.onigokko.games;
 
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class GameManager {
 
@@ -10,6 +13,8 @@ public class GameManager {
 
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
+
+    private boolean gameStart;
 
     public GameManager(TeamManager teamManager, ScoreboardManager sbManager) {
         this.teamManager = teamManager;
@@ -24,6 +29,14 @@ public class GameManager {
         return gameModeManager;
     }
 
+    //ゲームが進行中かをセット true||false
+    public void setGameStart(boolean gameStart) {
+        this.gameStart = gameStart;
+    }
+    //現在のゲームの状況を返す return true||false1
+    public boolean isGameStart() {
+        return gameStart;
+    }
 
     private void setupGame(GameMode mode) {
         // ゲームモードに応じたクラスを生成

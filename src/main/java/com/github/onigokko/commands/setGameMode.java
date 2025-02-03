@@ -3,16 +3,16 @@ package com.github.onigokko.commands;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.GameMode;
 import com.github.onigokko.games.GameModeManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class setGameMode implements CommandExecutor {
 
     private final GameManager gameManager;
-    private GameModeManager gameModeManager;
-
 
     public setGameMode(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -39,16 +39,25 @@ public class setGameMode implements CommandExecutor {
             sender.sendMessage("§cエラー: 無効なゲームモードです！");
             return true;
         }
+        if(gameManager.isGameStart()) {
+            sender.sendMessage(ChatColor.RED + "ゲームは現在進行中です！！");
+            return false;
+        }
 
         // ゲームモードを設定
         gameManager.setGameMode(mode);
-        sender.sendMessage(ChatColor.GREEN + "ゲームモードが " + mode.getDisplayName() + " に設定されました！");
 
+        // 全プレイヤーにゲームモードが変更されたことを通知
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendTitle(ChatColor.GREEN + "ゲームモードが" +
+                            ChatColor.DARK_AQUA +"[" + mode.getDisplayName()
+                            + "]" +ChatColor.GREEN + "になりました"
+                    , "", 10, 70, 20);
+        }
 
         return true;
     }
     /*　次回以降　
-    ゲームのスコアボードに鬼と逃げチームのプレイヤー数を追加
     プレイヤーを鬼に追加するコマンドの追加
      */
 

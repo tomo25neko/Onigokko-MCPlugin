@@ -20,7 +20,6 @@ public final class Onigokko extends JavaPlugin {
     private ScoreboardManager sbManager;
     private Timer timer;
     private TeamManager teamManager;
-    private GameModeManager gameModeManager;
     private GameManager gameManager;
 
     @Override
@@ -32,7 +31,7 @@ public final class Onigokko extends JavaPlugin {
 
         //コンストラクタ生成(クラス)
         this.sbManager = new ScoreboardManager();
-        this.timer = new Timer(this,sbManager);
+        this.timer = new Timer(this,sbManager,gameManager);
         this.teamManager = new TeamManager();
         this.gameManager = new GameManager(teamManager,sbManager);
 
@@ -52,8 +51,8 @@ public final class Onigokko extends JavaPlugin {
         // Plugin shutdown logic
 
         //プラグインで作成したスコアボード及びチームの削除
+        teamManager.removeTeams();
         sbManager.removeScoreboard();
-        teamManager.removeScoreboard();
 
         //停止通知
         Bukkit.getLogger().info("増やし鬼プラグインが停止しました / Fuyasi Oni Plugin has finished.");

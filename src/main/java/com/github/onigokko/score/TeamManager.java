@@ -1,7 +1,6 @@
 package com.github.onigokko.score;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
 public class TeamManager extends ScoreboardManager{
@@ -40,18 +39,25 @@ public class TeamManager extends ScoreboardManager{
     }
 
     //プレイヤーを指定されたチームに追加
-    public void addPlayerToTeam(Team team, Player player) {
+    public void addPlayerToTeam(Team team, String  player) {
         removePlayerAllTeam(player);
-        team.addEntry(player.getName());
+        team.addEntry(player);
+        setTeamSizeToScoreboard(team);
     }
 
     //指定されたプレイヤーを全てのチーム(鬼と逃げ)から削除
-    public void removePlayerAllTeam(Player player) {
+    private void removePlayerAllTeam(String player) {
         for(Team team : getScoreboard().getTeams()) {
-            if(team.hasEntry(player.getName())) {
-                team.removeEntry(player.getName());
+            if(team.hasEntry(player)) {
+                team.removeEntry(player);
+                setTeamSizeToScoreboard(team);
             }
         }
+    }
+    //現在スコアボードの更新は問題ないはずだが、ゲームモードが切り替わるときにスコアを削除できない可能性が高い、次回以降対策が必要
+    private void setTeamSizeToScoreboard(Team team) {
+        //oniチームなら７で、nigeチームなら8の順番で表示
+        setScore(team.getDisplayName(), team.getSize(), (team.getName().equals("nige") ? 8 : 7) );
     }
 
     //全てのチームを削除
@@ -59,5 +65,13 @@ public class TeamManager extends ScoreboardManager{
         for (Team team : getScoreboard().getTeams()) {
             team.unregister();
         }
+    }
+
+    public Team getOni() {
+        return oni;
+    }
+
+    public Team getNige() {
+        return nige;
     }
 }
