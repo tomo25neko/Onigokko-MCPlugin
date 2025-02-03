@@ -16,9 +16,9 @@ public class TeamManager extends ScoreboardManager{
             oni.setPrefix(ChatColor.RED + "[" + teamName + "] ");
 
             //チームの詳細設定
-            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAM); // 自チーム以外には攻撃可能
+            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
             oni.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM); //自チームにネームタグ常時表示
-            oni.setCanSeeFriendlyInvisibles(false); // 不可視状態の味方は視認不可
+            oni.setCanSeeFriendlyInvisibles(true); // 不可視状態の味方は視認不可
         } else {
             oni = getScoreboard().getTeam("oni");
         }
