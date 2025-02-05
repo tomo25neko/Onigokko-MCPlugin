@@ -57,8 +57,5 @@ public class setGameMode implements CommandExecutor {
 
         return true;
     }
-    /*　次回以降　
-    プレイヤーを鬼に追加するコマンドの追加
-     */
 
 }

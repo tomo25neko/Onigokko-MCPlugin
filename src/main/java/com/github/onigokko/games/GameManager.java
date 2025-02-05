@@ -2,9 +2,6 @@ package com.github.onigokko.games;
 
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 public class GameManager {
 

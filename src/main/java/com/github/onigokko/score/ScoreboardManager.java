@@ -46,20 +46,25 @@ public class ScoreboardManager {
         int spaceIndex = strippedNewEntry.indexOf(" ");//残り時間: %d秒　→ 残り時間:
         String newPrefix = (spaceIndex > 0) ? strippedNewEntry.substring(0, spaceIndex) : strippedNewEntry;
 
+        //更新前のスコアの削除
+        removeScore(newPrefix);
+
+        objective.getScore(newEntry).setScore(value); // スコアの設定と順番の設定
+
+    }
+    //スコアの削除処理
+    public void removeScore(String key) {
 
         // 現在のスコアボードにある各エントリについて、カラーコード除去後に固定部分を取得し、比較する
         for (String existingEntry : scoreboard.getEntries()) {
             String strippedExistingEntry = ChatColor.stripColor(existingEntry);
             int idx = strippedExistingEntry.indexOf(" ");
             String existingPrefix = (idx > 0) ? strippedExistingEntry.substring(0, idx) : strippedExistingEntry;
-            if (existingPrefix.equals(newPrefix)) {
+            if (existingPrefix.equals(key)) {
                 // 固定部分が一致すれば、既存のエントリを削除する
                 scoreboard.resetScores(existingEntry);
             }
         }
-
-        // 新しいスコアを設定(valueは表示順位)
-        objective.getScore(newEntry).setScore(value); // スコアの設定と順番の設定
     }
 
 

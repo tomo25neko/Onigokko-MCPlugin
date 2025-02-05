@@ -4,7 +4,6 @@ import com.github.onigokko.Event.PlayerJoin;
 import com.github.onigokko.commands.setGameMode;
 import com.github.onigokko.commands.setGameTime;
 import com.github.onigokko.games.GameManager;
-import com.github.onigokko.games.GameModeManager;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import com.github.onigokko.score.Timer;

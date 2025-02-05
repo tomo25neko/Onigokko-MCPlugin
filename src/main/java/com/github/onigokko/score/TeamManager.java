@@ -1,32 +1,34 @@
 package com.github.onigokko.score;
 
 import org.bukkit.ChatColor;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public class TeamManager extends ScoreboardManager{
 
     private Team oni;
     private Team nige;
+    private Scoreboard scoreboard = super.getScoreboard();
 
     public void createOniTeams(String teamName) {
         // 鬼チームの作成
-        if (getScoreboard().getTeam("oni") == null) {
-            oni = getScoreboard().registerNewTeam("oni");
+        if (scoreboard.getTeam("oni") == null) {
+            oni = scoreboard.registerNewTeam("oni");
             oni.setPrefix(ChatColor.RED + "[" + teamName + "] ");
 
             //チームの詳細設定
             oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
             oni.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM); //自チームにネームタグ常時表示
-            oni.setCanSeeFriendlyInvisibles(true); // 不可視状態の味方は視認不可
+            oni.setCanSeeFriendlyInvisibles(true); // 不可視状態の味方は視認可能
         } else {
-            oni = getScoreboard().getTeam("oni");
+            oni = scoreboard.getTeam("oni");
         }
     }
 
     public void createNigeTeams(String teamName) {
         // 逃げチームの作成
-        if (getScoreboard().getTeam("nige") == null) {
-            nige = getScoreboard().registerNewTeam("nige");
+        if (scoreboard.getTeam("nige") == null) {
+            nige = scoreboard.registerNewTeam("nige");
             nige.setPrefix(ChatColor.BLUE + "[" + teamName + "] ");
 
             //チームの詳細設定
@@ -34,7 +36,7 @@ public class TeamManager extends ScoreboardManager{
             nige.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER); // ネームタグ常時非表示
             nige.setCanSeeFriendlyInvisibles(false); // 不可視状態の味方は視認不可
         } else {
-            nige = getScoreboard().getTeam("nige");
+            nige = scoreboard.getTeam("nige");
         }
     }
 
@@ -47,22 +49,23 @@ public class TeamManager extends ScoreboardManager{
 
     //指定されたプレイヤーを全てのチーム(鬼と逃げ)から削除
     private void removePlayerAllTeam(String player) {
-        for(Team team : getScoreboard().getTeams()) {
+        for(Team team : scoreboard.getTeams()) {
             if(team.hasEntry(player)) {
                 team.removeEntry(player);
                 setTeamSizeToScoreboard(team);
             }
         }
     }
-    //現在スコアボードの更新は問題ないはずだが、ゲームモードが切り替わるときにスコアを削除できない可能性が高い、次回以降対策が必要
+    //新たなチームサイズの反映処理。
     private void setTeamSizeToScoreboard(Team team) {
         //oniチームなら７で、nigeチームなら8の順番で表示
-        setScore(team.getDisplayName(), team.getSize(), (team.getName().equals("nige") ? 8 : 7) );
+        super.setScore(team.getDisplayName(), team.getSize(), (team.getName().equals("nige") ? 8 : 7) );
     }
 
     //全てのチームを削除
     public void removeTeams() {
-        for (Team team : getScoreboard().getTeams()) {
+        for (Team team : scoreboard.getTeams()) {
+            super.removeScore(team.getDisplayName());
             team.unregister();
         }
     }
