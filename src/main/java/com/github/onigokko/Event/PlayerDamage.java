@@ -39,12 +39,8 @@ public class PlayerDamage implements Listener{
         // 鬼チームのプレイヤーが、逃げチームのプレイヤーを攻撃した場合
         if (teamManager.getOni().hasEntry(attacker.getName()) &&
                 teamManager.getNige().hasEntry(damagedPlayer.getName())) {
-
-            // 逃げプレイヤーを鬼に変更
-            teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
-
-            //捕まったことをゲームモードに応じた形で通知
-            gameManager.getGameModeManager().sendMessage(attacker,damagedPlayer);
+            //ゲームモード固有の処理を呼び出す
+            gameManager.getGameModeManager().CaughtPlayer(attacker,damagedPlayer);
 
             event.setCancelled(true);
         }
