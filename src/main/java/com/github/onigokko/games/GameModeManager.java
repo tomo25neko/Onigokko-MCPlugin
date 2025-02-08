@@ -10,5 +10,5 @@ public interface GameModeManager {
 
     void endGame();
 
-    void sendMessage(Player attacker, Player damagedPlayer);
+    void caughtPlayer(Player attacker, Player damagedPlayer);
 }

@@ -65,7 +65,10 @@ public class Fueoni implements GameModeManager {
     }
 
     @Override
-    public void sendMessage(Player attacker, Player damagedPlayer) {
+    public void caughtPlayer(Player attacker, Player damagedPlayer) {
+        // 逃げプレイヤーを鬼に変更
+        teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
+
         //捕まった人は個別メッセージ
         damagedPlayer.sendTitle(ChatColor.BOLD + "" +ChatColor.YELLOW +  "～あなたは鬼になった～",
                              "", 10, 50, 10);
