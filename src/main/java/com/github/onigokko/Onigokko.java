@@ -1,5 +1,7 @@
 package com.github.onigokko;
 
+import com.github.onigokko.Event.PlayerDamage;
+import com.github.onigokko.Event.PlayerExit;
 import com.github.onigokko.Event.PlayerJoin;
 import com.github.onigokko.commands.setGameMode;
 import com.github.onigokko.commands.setGameTime;
@@ -36,6 +38,10 @@ public final class Onigokko extends JavaPlugin {
 
         //イベント登録
         plManager.registerEvents(new PlayerJoin(sbManager), this);
+        plManager.registerEvents(new PlayerExit(sbManager), this);
+
+        plManager.registerEvents(new PlayerDamage(teamManager,gameManager), this);
+
 
         //コマンド登録
         getCommand("setgametime").setExecutor(new setGameTime(timer));
