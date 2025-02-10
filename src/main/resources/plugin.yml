@@ -7,8 +7,14 @@ description: spigot鬼ごプラグイン
 
 commands:
   setgametime:
-    description: ゲーム時間設定コマンド/set gametime command
+    description: ゲーム時間設定コマンド/set game time command
     usage: /setgametime [time]
   setgamemode:
-    description: ゲームモード設定コマンド/set gamemode command
+    description: ゲームモード設定コマンド/set game mode command
     usage: /setgametime [mode]
+  startgame:
+    description: ゲーム開始コマンド/ start game command
+    usage: /startgame
+  stopgame:
+    description: ゲーム停止コマンド/ stop game command
+    usage: /stopgame

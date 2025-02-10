@@ -1,7 +1,6 @@
 package com.github.onigokko.score;
 
 import com.github.onigokko.games.GameManager;
-import com.github.onigokko.games.GameModeManager;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -13,6 +12,7 @@ public class Timer {
 
     private BukkitRunnable timerTask;
     private int time = 0;
+    private int timeCount;
 
     public Timer(Plugin plugin,ScoreboardManager sbManager, GameManager gameManager) {
         this.plugin = plugin;
@@ -26,12 +26,17 @@ public class Timer {
         sbManager.setScore("ゲーム時間: %d秒", time, 9);
     }
 
-    public boolean startTimer() {
+    public void startTimer() {
         if (timerTask != null) {
-            return false;//すでにスタートしている場合は開始しない
+            return; //すでにスタートしている場合は開始しない
         }
+        sbManager.removeScore("ゲーム時間: %d秒");//ゲームスタート時に非ゲーム時表記の削除
+        timer();//タイマー起動
+        gameManager.setGameStart(true);//ゲームが進行中ではなくする
+    }
+    //タイマー本体
+    private void timer() {
 
-        gameManager.setGameStart(true);//ゲームが進行中に変更
         timerTask = new BukkitRunnable() {
             @Override
             public void run() {
@@ -43,22 +48,21 @@ public class Timer {
                     //以下ゲームの終了処理
                     gameManager.getGameModeManager().endGame();//現在のゲームモードクラスのend処理呼び出し
                 } else {
-                    sbManager.setScore("残り時間: %d秒", time, 9);
-                    time--;
+                    sbManager.setScore("残り時間: %d秒", timeCount, 9);
+                    timeCount--;
                 }
             }
         };
 
         timerTask.runTaskTimer(plugin, 0L, 20L);
-
-        return true;
     }
 
     public void stopTimer() {
         if (timerTask != null) {
             timerTask.cancel();
-            gameManager.setGameStart(false);//ゲームが進行中ではなくする
             timerTask = null;
+            setTime(time);//ゲーム時間を設定値に戻す
+            gameManager.setGameStart(false);//ゲームが進行中ではなくする
         }
     }
 

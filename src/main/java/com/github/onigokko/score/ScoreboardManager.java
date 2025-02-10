@@ -68,13 +68,7 @@ public class ScoreboardManager {
     }
 
 
-//    全プレイヤーにスコアボードの表示 testが成功すれば廃止予定
-//    public void showScoreboard() {
-//        for (Player player : Bukkit.getOnlinePlayers()) {
-//            player.setScoreboard(scoreboard);
-//        }
-//    }
-    //testコード プレイヤーのサイドバーにスコアボードを表示。
+    //プレイヤーのサイドバーにスコアボードを表示。
     public void showScorebordToPlayer(Player player) {
         player.setScoreboard(scoreboard);
     }
