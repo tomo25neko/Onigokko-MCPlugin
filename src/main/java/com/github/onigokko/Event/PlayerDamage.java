@@ -21,20 +21,17 @@ public class PlayerDamage implements Listener{
     @EventHandler
     public void onPlayerDamageFromEntity(EntityDamageByEntityEvent event) {
         // ダメージを受けたのがプレイヤーか確認
-        if(!(event.getEntity() instanceof Player)) {
+        if(!(event.getEntity() instanceof Player damagedPlayer)) {
             return;
         }
         // 攻撃したのがプレイヤーか確認
-        if (!(event.getDamager() instanceof Player)) {
+        if (!(event.getDamager() instanceof Player attacker)) {
             return;
         }
         //今がゲーム中か確認
         if (!(gameManager.isGameStart())) {
             return;
         }
-
-        Player damagedPlayer = (Player) event.getEntity();
-        Player attacker = (Player) event.getDamager();
 
         // 鬼チームのプレイヤーが、逃げチームのプレイヤーを攻撃した場合
         if (teamManager.getOni().hasEntry(attacker.getName()) &&
