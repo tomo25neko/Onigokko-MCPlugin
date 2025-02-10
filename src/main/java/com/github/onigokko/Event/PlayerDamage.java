@@ -50,10 +50,10 @@ public class PlayerDamage implements Listener{
     //プレイヤー以外からのダメージ
     @EventHandler
     public void onPlayerGetDamage(EntityDamageEvent event) {
-        if(event.getCause() == EntityDamageEvent.DamageCause.FALL) {
+        //落下ダメージ無効・溺死ダメージ無効
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL ||
+                event.getCause() == EntityDamageEvent.DamageCause.DROWNING) {
             event.setCancelled(true);//落下ダメージ無効
-        } else if(event.getCause() == EntityDamageEvent.DamageCause.DROWNING) {
-            event.setCancelled(true);//溺死ダメージ無効
         }
     }
 
