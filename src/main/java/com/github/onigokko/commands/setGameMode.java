@@ -28,8 +28,8 @@ public class setGameMode implements CommandExecutor {
         if (args.length != 1) {
             sender.sendMessage(ChatColor.RED + "使用方法: /setgamemode <ゲームモード>\n" +
                                   ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
-            for (String mode:GameMode.getModeList()) {
-                sender.sendMessage("  ・ " + ChatColor.AQUA + mode);
+            for (String modes:GameMode.getModeList()) {
+                sender.sendMessage("  ・ " + ChatColor.AQUA + modes);
             } //ゲームのリストを表示
             return true;
         }
@@ -39,7 +39,11 @@ public class setGameMode implements CommandExecutor {
 
         // 無効なゲームモードの場合
         if (mode == null) {
-            sender.sendMessage("§cエラー: 無効なゲームモードです！");
+            sender.sendMessage(ChatColor.RED +"エラー: 無効なゲームモードです！\n" +
+                                  ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
+            for (String modes:GameMode.getModeList()) {
+                sender.sendMessage("  ・ " + ChatColor.AQUA + modes);
+            } //ゲームのリストを表示
             return true;
         }
 
