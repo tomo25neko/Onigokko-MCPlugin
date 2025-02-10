@@ -33,7 +33,6 @@ public class Fueoni implements GameModeManager {
                              ChatColor.YELLOW + "~ 増える鬼から逃げ切れ ~",
                             10,70,20 );
         }
-
     }
 
     @Override

@@ -35,7 +35,8 @@ public class startGame implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "OP権限があるプレイヤーのみ実行可能です!");
         }
 
-        timer.startTimer();//スタート処理呼び出し
+        gameManager.getGameModeManager().startGame();//現在のゲームモードのスタート処理を呼び出す
+        timer.startTimer();//カウントダウン　スタート処理呼び出し
 
         return true;
     }
