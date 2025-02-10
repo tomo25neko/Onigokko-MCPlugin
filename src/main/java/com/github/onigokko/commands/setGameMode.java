@@ -2,7 +2,6 @@ package com.github.onigokko.commands;
 
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.GameMode;
-import com.github.onigokko.games.GameModeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,7 +26,11 @@ public class setGameMode implements CommandExecutor {
 
         // 引数が不足している場合
         if (args.length != 1) {
-            sender.sendMessage(ChatColor.RED + "使用方法: /setgamemode <ゲームモード>");
+            sender.sendMessage(ChatColor.RED + "使用方法: /setgamemode <ゲームモード>\n" +
+                                  ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
+            for (String mode:GameMode.getModeList()) {
+                sender.sendMessage("  ・ " + ChatColor.AQUA + mode);
+            } //ゲームのリストを表示
             return true;
         }
 
@@ -39,9 +42,10 @@ public class setGameMode implements CommandExecutor {
             sender.sendMessage("§cエラー: 無効なゲームモードです！");
             return true;
         }
+
         if(gameManager.isGameStart()) {
             sender.sendMessage(ChatColor.RED + "ゲームは現在進行中です！！");
-            return false;
+            return true;
         }
 
         // ゲームモードを設定

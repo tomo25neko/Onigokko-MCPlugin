@@ -31,8 +31,9 @@ public class Timer {
             return; //すでにスタートしている場合は開始しない
         }
         sbManager.removeScore("ゲーム時間: %d秒");//ゲームスタート時に非ゲーム時表記の削除
+        timeCount = time;//カウントダウンに設定時間をセット
         timer();//タイマー起動
-        gameManager.setGameStart(true);//ゲームが進行中ではなくする
+        gameManager.setGameStart(true);//ゲームを進行中にする
     }
     //タイマー本体
     private void timer() {
@@ -40,11 +41,11 @@ public class Timer {
         timerTask = new BukkitRunnable() {
             @Override
             public void run() {
-                if (time <= 0) {
+                if (timeCount <= 0) {
                     // 時間切れ処理
 
-                    sbManager.setScore("残り時間: 0秒", 0, 9);//確定、変更しない
                     stopTimer();
+
                     //以下ゲームの終了処理
                     gameManager.getGameModeManager().endGame();//現在のゲームモードクラスのend処理呼び出し
                 } else {
@@ -61,6 +62,7 @@ public class Timer {
         if (timerTask != null) {
             timerTask.cancel();
             timerTask = null;
+            sbManager.removeScore("残り時間: %d秒");//ゲーム時の時間表記の削除
             setTime(time);//ゲーム時間を設定値に戻す
             gameManager.setGameStart(false);//ゲームが進行中ではなくする
         }

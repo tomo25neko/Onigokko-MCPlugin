@@ -19,7 +19,7 @@ public class setGameTime implements CommandExecutor {
         //op権限チェック
         if (!sender.isOp()) {
             sender.sendMessage(ChatColor.RED + "このコマンドはOPのみ実行可能です。");
-            return false;
+            return true;
         }
 
         if (args.length != 1) {

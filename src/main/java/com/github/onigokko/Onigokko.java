@@ -34,9 +34,9 @@ public final class Onigokko extends JavaPlugin {
 
         //コンストラクタ生成(クラス)
         this.sbManager = new ScoreboardManager();
-        this.timer = new Timer(this,sbManager,gameManager);
         this.teamManager = new TeamManager();
         this.gameManager = new GameManager(teamManager,sbManager);
+        this.timer = new Timer(this,sbManager,gameManager);
 
         //イベント登録
         plManager.registerEvents(new PlayerJoin(sbManager), this);
