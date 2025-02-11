@@ -31,14 +31,12 @@ public class ScoreboardManager {
     //スコアボードの一番上に出る名称をgameModeに変更
     public void setGameNameToDisplay(String gameMode) {
         objective.setDisplayName(ChatColor.AQUA + gameMode);
-
     }
 
-    //スコアボードに登録　keyでセットしてvalueが値
+    //スコアボードに登録　keyでセットしてvalueが値 色は引数に事前につけておく
     public void setScore(String key, int amount,int value) {
         // %d を含む場合は置換して完全な文字列を生成
-        String formattedKey = key.contains("%d") ? String.format(key, amount) : key;
-        String newEntry = ChatColor.GREEN + formattedKey;
+        String newEntry = key.contains("%d") ? String.format(key, amount) : key;
 
         //更新前のスコアの削除
         removeScore(key);
@@ -46,14 +44,14 @@ public class ScoreboardManager {
         objective.getScore(newEntry).setScore(value); // スコアの設定と順番の設定
 
     }
-    //スコアの削除処理 ChatColorを含まない文字列を渡す！
+    // スコアの削除処理（ChatColorを除去して比較）
     public void removeScore(String key) {
+        // 渡されたキーから色コードを除去して、最初の空白までの部分を固定部分とする
+        String strippedKey = ChatColor.stripColor(key);
+        int spaceIndex = strippedKey.indexOf(" ");
+        String prefix = (spaceIndex > 0) ? strippedKey.substring(0, spaceIndex) : strippedKey;
 
-        int spaceIndex = key.indexOf(" ");
-        // 最初の空白までの部分を固定部分とする
-        String prefix = (spaceIndex > 0) ? key.substring(0, spaceIndex) : key;//残り時間: %d秒　→ 残り時間:
-
-        // 現在のスコアボードにある各エントリについて、カラーコード除去後に固定部分を取得し、比較する
+        // 現在のスコアボードにある各エントリについて、色コード除去後に固定部分を取得し、比較する
         for (String existingEntry : scoreboard.getEntries()) {
             String strippedExistingEntry = ChatColor.stripColor(existingEntry);
             int idx = strippedExistingEntry.indexOf(" ");

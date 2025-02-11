@@ -39,7 +39,7 @@ public class GameManager {
         // ゲームモードに応じたクラスを生成
         switch (mode) {
             case FUEONI:
-                this.gameModeManager = new Fueoni(teamManager);
+                this.gameModeManager = new Fueoni(teamManager,sbManager);
                 break;
             default:
                 this.gameModeManager = null;
@@ -48,7 +48,6 @@ public class GameManager {
 
         //
         if (gameModeManager != null) {
-            sbManager.setGameNameToDisplay(mode.getDisplayName());
             gameModeManager.setup();
         }
     }

@@ -22,27 +22,32 @@ public class startGame implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
         if (gameManager.isGameStart()) {
-            sender.sendMessage(ChatColor.RED + "すでにゲーム中です!!");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "すでにゲーム中です!!");
             return true;
         }
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "プレイヤーのみ実行可能です！");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "プレイヤーのみ実行可能です！");
             return true;
         }
 
         if (!(sender.isOp())) {
-            sender.sendMessage(ChatColor.RED + "OP権限があるプレイヤーのみ実行可能です!");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "OP権限があるプレイヤーのみ実行可能です!");
             return true;
         }
 
         if (timer.getTime() == 0) {
-            sender.sendMessage(ChatColor.RED + "ゲームの時間が0秒です！！");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "ゲームの時間が0秒です！！");
             return true;
         }
 
         if (gameManager.getGameModeManager() == null) {
-            sender.sendMessage(ChatColor.RED + "ゲームモードが設定されていません!!");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "ゲームモードが設定されていません!!");
             return true;
         }
 

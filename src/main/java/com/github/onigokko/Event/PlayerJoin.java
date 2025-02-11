@@ -4,6 +4,7 @@ package com.github.onigokko.Event;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -19,7 +20,7 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        sbManager.setScore("総プレイヤー数: %d人", Bukkit.getOnlinePlayers().size(), 10);
+        sbManager.setScore(ChatColor.GREEN + "総プレイヤー数: %d人", Bukkit.getOnlinePlayers().size(), 10);
         sbManager.showScorebordToPlayer(event.getPlayer());
 
         //プレイヤーを逃げチームに標準で追加

@@ -1,6 +1,7 @@
 package com.github.onigokko.commands;
 
 import com.github.onigokko.score.Timer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +24,8 @@ public class setGameTime implements CommandExecutor {
         }
 
         if (args.length != 1) {
-            sender.sendMessage(ChatColor.RED + "ゲーム時間を指定してください。使用例: /setgametime [time]");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "ゲーム時間を指定してください。使用例: /setgametime [time]");
             return false;
         }
 
@@ -31,18 +33,22 @@ public class setGameTime implements CommandExecutor {
         try {
             time = Integer.parseInt(args[0]);
             if (time <= 0) {
-                sender.sendMessage(ChatColor.RED + "ゲーム時間は正の整数で指定してください。");
+                sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                                   ChatColor.RED + "ゲーム時間は正の整数で指定してください。");
                 return false;
             }
         } catch (NumberFormatException e) {
-            sender.sendMessage(ChatColor.RED + "ゲーム時間は整数で指定してください。");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "ゲーム時間は整数で指定してください。");
             return false;
         }
 
         //全条件を満たす場合時間をセット
         timer.setTime(time);
+
         // 設定された時間をユーザーに通知
-        sender.sendMessage(ChatColor.GREEN + "ゲーム時間を " + time + " 秒に設定しました。");
+        Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " +
+                                ChatColor.GREEN + "ゲーム時間を " + time + " 秒に設定しました。");
         return true;
     }
 }

@@ -4,17 +4,26 @@ import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-public class TeamManager extends ScoreboardManager{
+public class TeamManager {
 
     private Team oni;
     private Team nige;
-    private Scoreboard scoreboard = super.getScoreboard();
+    private final ScoreboardManager sbManager;
+    private final Scoreboard scoreboard;
 
-    public void createOniTeams(String teamName) {
+    public TeamManager(ScoreboardManager scoreboardManager) {
+        this.sbManager = scoreboardManager;
+        this.scoreboard = sbManager.getScoreboard();
+        createOniTeams();
+        createNigeTeams();
+    }
+
+    private void createOniTeams() {
         // 鬼チームの作成
         if (scoreboard.getTeam("oni") == null) {
             oni = scoreboard.registerNewTeam("oni");
-            oni.setPrefix(ChatColor.RED + "[" + teamName + "] ");
+            oni.setPrefix(ChatColor.RED + "[鬼] ");//プレイヤーの名前の前につくチーム名の変更
+            oni.setDisplayName(ChatColor.RED + "[鬼]" + ChatColor.GREEN + "チーム: %d人");//表示名変更
 
             //チームの詳細設定
             oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
@@ -23,16 +32,15 @@ public class TeamManager extends ScoreboardManager{
 
             //スコア表示
             setTeamSizeToScoreboard(oni);
-        } else {
-            oni = scoreboard.getTeam("oni");
         }
     }
 
-    public void createNigeTeams(String teamName) {
+    private void createNigeTeams() {
         // 逃げチームの作成
         if (scoreboard.getTeam("nige") == null) {
             nige = scoreboard.registerNewTeam("nige");
-            nige.setPrefix(ChatColor.BLUE + "[" + teamName + "] ");
+            nige.setPrefix(ChatColor.BLUE + "[逃げ] ");
+            nige.setDisplayName(ChatColor.BLUE + "[逃げ]" + ChatColor.GREEN + "チーム: %d人");
 
             //チームの詳細設定
             nige.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER); // チーム内のフレンドリーファイア無効
@@ -41,13 +49,21 @@ public class TeamManager extends ScoreboardManager{
 
             //スコア表示
             setTeamSizeToScoreboard(nige);
-        } else {
-            nige = scoreboard.getTeam("nige");
         }
     }
 
+    //チームの名前を変更
+    public void setTeamName(Team team,String teamName) {
+        if(team == nige) {
+            team.setDisplayName(ChatColor.BLUE + "[" + teamName + "]" + ChatColor.GREEN + "チーム: %d人");
+        } else {
+            team.setDisplayName(ChatColor.RED + "[" + teamName + "]" + ChatColor.GREEN + "チーム: %d人");
+        }
+
+    }
+
     //プレイヤーを指定されたチームに追加
-    public void addPlayerToTeam(Team team, String  player) {
+    public void addPlayerToTeam(Team team, String player) {
         removePlayerAllTeam(player);
         team.addEntry(player);
         setTeamSizeToScoreboard(team);
@@ -55,23 +71,24 @@ public class TeamManager extends ScoreboardManager{
 
     //指定されたプレイヤーを全てのチーム(鬼と逃げ)から削除
     public void removePlayerAllTeam(String player) {
-        for(Team team : scoreboard.getTeams()) {
-            if(team.hasEntry(player)) {
+        for (Team team : scoreboard.getTeams()) {
+            if (team.hasEntry(player)) {
                 team.removeEntry(player);
                 setTeamSizeToScoreboard(team);
             }
         }
     }
+
     //新たなチームサイズの反映処理。
     private void setTeamSizeToScoreboard(Team team) {
         //oniチームなら７で、nigeチームなら8の順番で表示
-        super.setScore(team.getDisplayName(), team.getSize(), (team.getName().equals("nige") ? 8 : 7) );
+        sbManager.setScore(team.getDisplayName(), team.getSize(), (team == nige ? 8 : 7));
     }
 
     //全てのチームを削除
     public void removeTeams() {
         for (Team team : scoreboard.getTeams()) {
-            super.removeScore(team.getDisplayName());
+            sbManager.removeScore(team.getName());
             team.unregister();
         }
     }

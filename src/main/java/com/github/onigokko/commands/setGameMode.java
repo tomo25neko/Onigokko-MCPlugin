@@ -39,8 +39,9 @@ public class setGameMode implements CommandExecutor {
 
         // 無効なゲームモードの場合
         if (mode == null) {
-            sender.sendMessage(ChatColor.RED +"エラー: 無効なゲームモードです！\n" +
-                                  ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED +"Error無効なゲームモードです！\n" +
+                               ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
             for (String modes:GameMode.getModeList()) {
                 sender.sendMessage("  ・ " + ChatColor.AQUA + modes);
             } //ゲームのリストを表示
@@ -48,19 +49,21 @@ public class setGameMode implements CommandExecutor {
         }
 
         if(gameManager.isGameStart()) {
-            sender.sendMessage(ChatColor.RED + "ゲームは現在進行中です！！");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "ゲームは現在進行中です！！");
             return true;
         }
 
         // ゲームモードを設定
         gameManager.setGameMode(mode);
 
+
         // 全プレイヤーにゲームモードが変更されたことを通知
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(ChatColor.GREEN + "ゲームモードが" +
-                            ChatColor.DARK_AQUA +"[" + mode.getDisplayName()
-                            + "]" +ChatColor.GREEN + "になりました"
-                    , "", 10, 70, 20);
+            player.sendTitle(ChatColor.GREEN + "ゲームモード" +
+                            ChatColor.DARK_AQUA +"[" + mode.getDisplayName() + "]",
+                            ChatColor.YELLOW +"増える鬼から逃げよう！",
+                            10, 70, 20);
         }
 
         return true;

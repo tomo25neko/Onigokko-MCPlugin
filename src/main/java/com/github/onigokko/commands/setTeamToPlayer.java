@@ -27,58 +27,55 @@ public class setTeamToPlayer implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        //OPかチェック
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // OPチェック
         if (!sender.isOp()) {
             sender.sendMessage(ChatColor.RED + "このコマンドはOPのみ実行可能です！");
             return true;
         }
 
+        // ゲーム中は変更不可
         if (gameManager.isGameStart()) {
-            sender.sendMessage((ChatColor.RED + "ゲームスタート中は変更不可です"));
+            sender.sendMessage(ChatColor.RED + "ゲーム中はチームの変更はできません！");
             return true;
         }
 
+        // 引数が足りない場合、使用方法を表示
         if (args.length < 2) {
             sender.sendMessage(ChatColor.RED + "使用方法:");
-            sender.sendMessage(ChatColor.YELLOW + "/setteam <nige|oni> <playerName>");
-            sender.sendMessage(ChatColor.YELLOW + "/setteam oni random <number>");
-
+            sender.sendMessage(ChatColor.YELLOW + "/setteam <oni|nige> <playerName>");
+            sender.sendMessage(ChatColor.YELLOW + "/setteam random <number>");
             return true;
         }
 
-        String teamArg = args[0].toLowerCase();
-        if (!teamArg.equals("oni") && !teamArg.equals("nige")) {
-            sender.sendMessage(ChatColor.RED + "無効なチーム名です。使用可能なのは oni または nige です。");
-            return true;
-        }
+        String option = args[0].toLowerCase();
 
-        // 個別追加の場合：/setteam <team> <playerName>
-        if (args.length == 2) {
-            String playerName = args[1];
-            // 追加先チームを判定
-            if (teamArg.equals("oni")) {
-                teamManager.addPlayerToTeam(teamManager.getOni(), playerName);
-                sender.sendMessage(ChatColor.GREEN + playerName + " を鬼チームに追加しました。");
+        // 個別追加の場合：/setteam oni <playerName> または /setteam nige <playerName>
+        if (option.equals("oni") || option.equals("nige")) {
+            //プレイヤーを取得
+            Player player = Bukkit.getPlayer(args[1]);
+
+            if (option.equals("oni")) {
+                teamManager.addPlayerToTeam(teamManager.getOni(), player.getName());
+                sender.sendMessage(ChatColor.GREEN + player.getName() + " を鬼チームに追加しました。");
             } else {
-                teamManager.addPlayerToTeam(teamManager.getNige(), playerName);
-                sender.sendMessage(ChatColor.GREEN + playerName + " を逃げチームに追加しました。");
+                teamManager.addPlayerToTeam(teamManager.getNige(), player.getName());
+                sender.sendMessage(ChatColor.GREEN + player.getName() + " を逃げチームに追加しました。");
             }
-
             return true;
         }
-
-        // ランダム選択の場合：/setteam oni random <number>
-        if (args.length == 3 && teamArg.equals("oni") && args[1].equalsIgnoreCase("random")) {
+        // ランダム追加の場合：/setteam random <number>
+        else if (option.equals("random")) {
             int count;
             try {
-                count = Integer.parseInt(args[2]);
+                count = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
                 sender.sendMessage(ChatColor.RED + "数値を指定してください。");
                 return true;
             }
 
-            // 候補となるプレイヤーのリストを作成（足元から最大3ブロック下に溶岩またはマグマブロックがある場合）
+            // 候補となるプレイヤーのリストを作成
+            // 条件：足元から最大3ブロック下に マグマブロックがある場合
             List<Player> candidates = new ArrayList<>();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (isPlayerNearLava(player)) {
@@ -86,42 +83,42 @@ public class setTeamToPlayer implements CommandExecutor {
                 }
             }
 
-            //抽選対象がいない場合。
+            // 候補がいない場合
             if (candidates.isEmpty()) {
-                sender.sendMessage(ChatColor.RED + "溶岩またはマグマブロック上3マス以内にいるプレイヤーが見つかりませんでした。");
+                sender.sendMessage(ChatColor.RED + "マグマブロックの上3マス以内にいるプレイヤーが見つかりませんでした。");
                 return true;
             }
 
-            // リストをランダムに並び替える
+            // 候補リストをランダムにシャッフル
             Collections.shuffle(candidates);
 
-            //アナウンス　１
+            // アナウンス（全体通知）
             Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " +
                                     ChatColor.DARK_RED + "「今回の鬼はこの人たちです!!」");
 
             int added = 0;
             for (Player player : candidates) {
-                if (added >= count) break;//追加人数が指定された人数を超えたら停止
+                if (added >= count) break;
                 teamManager.addPlayerToTeam(teamManager.getOni(), player.getName());
-                Bukkit.broadcastMessage(" ・" + player.getName());//アナウンス2 名前
+                Bukkit.broadcastMessage(" ・" + player.getName());
                 added++;
             }
 
-            if(added < count) {
+            if (added < count) {
                 sender.sendMessage(ChatColor.GREEN + String.format("指定された人数よりも対象プレイヤーが少なかったため%d人中%d人が鬼チームに追加されました。", count, added));
             } else {
                 sender.sendMessage(ChatColor.GREEN + "鬼チームに" + added + "人のプレイヤーを追加しました。");
             }
             return true;
+        } else {
+            sender.sendMessage(ChatColor.RED + "無効なオプションです。使用可能なのは oni, nige, random です。");
+            return true;
         }
-
-        sender.sendMessage(ChatColor.RED + "使用方法が正しくありません。");
-        return true;
     }
 
     /**
-     * 指定したプレイヤーが、足元から最大 maxDistance ブロック下に
-     * マグマブロック (Material.MAGMA_BLOCK) が存在するかを判定する。
+     * 指定したプレイヤーが、足元から最大3ブロック下に
+     * 溶岩 (Material.LAVA) または マグマブロック (Material.MAGMA_BLOCK) が存在するかを判定する。
      */
     private boolean isPlayerNearLava(Player player) {
         Location loc = player.getLocation();
@@ -133,5 +130,4 @@ public class setTeamToPlayer implements CommandExecutor {
         }
         return false;
     }
-
 }
