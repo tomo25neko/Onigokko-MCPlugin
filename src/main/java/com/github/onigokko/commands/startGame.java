@@ -36,6 +36,16 @@ public class startGame implements CommandExecutor {
             return true;
         }
 
+        if (timer.getTime() == 0) {
+            sender.sendMessage(ChatColor.RED + "ゲームの時間が0秒です！！");
+            return true;
+        }
+
+        if (gameManager.getGameModeManager() == null) {
+            sender.sendMessage(ChatColor.RED + "ゲームモードが設定されていません!!");
+            return true;
+        }
+
         gameManager.getGameModeManager().startGame();//現在のゲームモードのスタート処理を呼び出す
         timer.startTimer();//カウントダウン　スタート処理呼び出し
 

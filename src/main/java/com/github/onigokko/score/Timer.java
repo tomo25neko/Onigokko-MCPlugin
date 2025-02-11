@@ -25,6 +25,9 @@ public class Timer {
         this.time = time;
         sbManager.setScore("ゲーム時間: %d秒", time, 9);
     }
+    public int getTime() {
+        return time;
+    }
 
     public void startTimer() {
         if (timerTask != null) {

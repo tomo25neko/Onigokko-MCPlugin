@@ -20,6 +20,9 @@ public class TeamManager extends ScoreboardManager{
             oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
             oni.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM); //自チームにネームタグ常時表示
             oni.setCanSeeFriendlyInvisibles(true); // 不可視状態の味方は視認可能
+
+            //スコア表示
+            setTeamSizeToScoreboard(oni);
         } else {
             oni = scoreboard.getTeam("oni");
         }
@@ -35,6 +38,9 @@ public class TeamManager extends ScoreboardManager{
             nige.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER); // チーム内のフレンドリーファイア無効
             nige.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER); // ネームタグ常時非表示
             nige.setCanSeeFriendlyInvisibles(false); // 不可視状態の味方は視認不可
+
+            //スコア表示
+            setTeamSizeToScoreboard(nige);
         } else {
             nige = scoreboard.getTeam("nige");
         }
@@ -48,7 +54,7 @@ public class TeamManager extends ScoreboardManager{
     }
 
     //指定されたプレイヤーを全てのチーム(鬼と逃げ)から削除
-    private void removePlayerAllTeam(String player) {
+    public void removePlayerAllTeam(String player) {
         for(Team team : scoreboard.getTeams()) {
             if(team.hasEntry(player)) {
                 team.removeEntry(player);

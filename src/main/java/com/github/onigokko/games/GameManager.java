@@ -46,8 +46,9 @@ public class GameManager {
                 break;
         }
 
+        //
         if (gameModeManager != null) {
-            sbManager.setGameMode(mode.getDisplayName());
+            sbManager.setGameNameToDisplay(mode.getDisplayName());
             gameModeManager.setup();
         }
     }

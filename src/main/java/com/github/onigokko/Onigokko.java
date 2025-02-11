@@ -39,8 +39,8 @@ public final class Onigokko extends JavaPlugin {
         this.timer = new Timer(this,sbManager,gameManager);
 
         //イベント登録
-        plManager.registerEvents(new PlayerJoin(sbManager), this);
-        plManager.registerEvents(new PlayerExit(sbManager), this);
+        plManager.registerEvents(new PlayerJoin(sbManager,teamManager), this);
+        plManager.registerEvents(new PlayerExit(sbManager,teamManager), this);
 
         plManager.registerEvents(new PlayerDamage(teamManager,gameManager), this);
 

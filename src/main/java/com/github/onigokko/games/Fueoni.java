@@ -23,7 +23,7 @@ public class Fueoni implements GameModeManager {
         teamManager.createOniTeams("鬼");
         teamManager.createNigeTeams("逃げ");
         //スコアボードの表記を変更
-        teamManager.setGameMode("増やし鬼");
+        teamManager.setGameNameToDisplay("増やし鬼");
     }
 
     @Override
@@ -69,8 +69,9 @@ public class Fueoni implements GameModeManager {
         teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
 
         //捕まった人は個別メッセージ
-        damagedPlayer.sendTitle(ChatColor.BOLD + "" +ChatColor.YELLOW +  "～あなたは鬼になった～",
-                             "", 10, 50, 10);
+        damagedPlayer.sendTitle(ChatColor.BOLD + "" +ChatColor.YELLOW +  "～あなたは" +
+                                   ChatColor.RED +"[鬼]" + ChatColor.YELLOW +"になった～",
+                                "", 10, 40, 10);
         //全体メッセージ
         Bukkit.broadcastMessage(ChatColor.YELLOW + damagedPlayer.getName() + " は、" +
                                 attacker.getName() + "によって鬼にされた");

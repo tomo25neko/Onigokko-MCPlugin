@@ -29,7 +29,7 @@ public class ScoreboardManager {
     }
 
     //スコアボードの一番上に出る名称をgameModeに変更
-    public void setGameMode(String gameMode) {
+    public void setGameNameToDisplay(String gameMode) {
         objective.setDisplayName(ChatColor.AQUA + gameMode);
 
     }
