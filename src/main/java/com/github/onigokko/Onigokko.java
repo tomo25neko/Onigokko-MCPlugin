@@ -3,10 +3,7 @@ package com.github.onigokko;
 import com.github.onigokko.Event.PlayerDamage;
 import com.github.onigokko.Event.PlayerExit;
 import com.github.onigokko.Event.PlayerJoin;
-import com.github.onigokko.commands.setGameMode;
-import com.github.onigokko.commands.setGameTime;
-import com.github.onigokko.commands.startGame;
-import com.github.onigokko.commands.stopGame;
+import com.github.onigokko.commands.*;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
@@ -50,6 +47,7 @@ public final class Onigokko extends JavaPlugin {
         getCommand("setgamemode").setExecutor(new setGameMode(gameManager));
         getCommand("startgame").setExecutor(new startGame(gameManager,timer));
         getCommand("stopgame").setExecutor(new stopGame(gameManager,timer));
+        getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager,teamManager));
 
         //起動通知
         Bukkit.getLogger().info("増やし鬼プラグインが起動しました/Fuyasi Oni Plugin has started.");
