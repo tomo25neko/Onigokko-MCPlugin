@@ -18,3 +18,6 @@ commands:
   stopgame:
     description: ゲーム停止コマンド/ stop game command
     usage: /stopgame
+  setteam:
+    description: プレイヤーをチームに追加するコマンド
+    usage: /setteam <oni | nige> <player | random> <int>
