@@ -20,7 +20,7 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        sbManager.setScore(ChatColor.GREEN + "総プレイヤー数: %d人", Bukkit.getOnlinePlayers().size(), 10);
+        sbManager.setScore(ChatColor.GREEN + "総プレイヤー： %d人", Bukkit.getOnlinePlayers().size(), 5);
         sbManager.showScorebordToPlayer(event.getPlayer());
 
         //プレイヤーを逃げチームに標準で追加

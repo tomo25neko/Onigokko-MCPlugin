@@ -20,7 +20,7 @@ public class PlayerExit implements Listener {
 
     @EventHandler
     public void onPlayerExitEvent(PlayerQuitEvent event) {
-        scoreboardManager.setScore(ChatColor.GREEN + "総プレイヤー数: %d人", Bukkit.getOnlinePlayers().size(), 10);
+        scoreboardManager.setScore(ChatColor.GREEN + "総プレイヤー： %d人", Bukkit.getOnlinePlayers().size(), 5);
 
         //プレイヤーをチームから削除
         teamManager.removePlayerAllTeam(event.getPlayer().getName());

@@ -23,7 +23,7 @@ public class TeamManager {
         if (scoreboard.getTeam("oni") == null) {
             oni = scoreboard.registerNewTeam("oni");
             oni.setPrefix(ChatColor.RED + "[鬼] ");//プレイヤーの名前の前につくチーム名の変更
-            oni.setDisplayName(ChatColor.RED + "[鬼]" + ChatColor.GREEN + "チーム: %d人");//表示名変更
+            oni.setDisplayName(ChatColor.RED + "[鬼]" + ChatColor.GREEN + "チーム:    %d人");//表示名変更
 
             //チームの詳細設定
             oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
@@ -39,8 +39,8 @@ public class TeamManager {
         // 逃げチームの作成
         if (scoreboard.getTeam("nige") == null) {
             nige = scoreboard.registerNewTeam("nige");
-            nige.setPrefix(ChatColor.BLUE + "[逃げ] ");
-            nige.setDisplayName(ChatColor.BLUE + "[逃げ]" + ChatColor.GREEN + "チーム: %d人");
+            nige.setPrefix(ChatColor.DARK_AQUA + "[逃げ] ");
+            nige.setDisplayName(ChatColor.DARK_AQUA + "[逃げ]" + ChatColor.GREEN + "チーム： %d人");
 
             //チームの詳細設定
             nige.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER); // チーム内のフレンドリーファイア無効
@@ -55,9 +55,9 @@ public class TeamManager {
     //チームの名前を変更
     public void setTeamName(Team team,String teamName) {
         if(team == nige) {
-            team.setDisplayName(ChatColor.BLUE + "[" + teamName + "]" + ChatColor.GREEN + "チーム: %d人");
+            team.setDisplayName(ChatColor.DARK_AQUA + "[" + teamName + "]" + ChatColor.GREEN + "チーム： %d人");//逃げ
         } else {
-            team.setDisplayName(ChatColor.RED + "[" + teamName + "]" + ChatColor.GREEN + "チーム: %d人");
+            team.setDisplayName(ChatColor.RED + "[" + teamName + "]" + ChatColor.GREEN + "チーム：    %d人");//鬼
         }
 
     }
@@ -81,8 +81,8 @@ public class TeamManager {
 
     //新たなチームサイズの反映処理。
     private void setTeamSizeToScoreboard(Team team) {
-        //oniチームなら７で、nigeチームなら8の順番で表示
-        sbManager.setScore(team.getDisplayName(), team.getSize(), (team == nige ? 8 : 7));
+        //oniチームなら3で、nigeチームなら4の順番で表示
+        sbManager.setScore(team.getDisplayName(), team.getSize(), (team == nige ? 4 : 3));
     }
 
     //全てのチームを削除
