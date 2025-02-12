@@ -17,6 +17,7 @@ public enum GameMode {
         return displayName;
     }
 
+    //ゲームモードのリストを返す
     public static List<String> getModeList() {
         List<String> modeList = new ArrayList<>();
         for (GameMode mode : GameMode.values()) {

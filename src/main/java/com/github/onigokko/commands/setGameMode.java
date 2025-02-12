@@ -20,14 +20,16 @@ public class setGameMode implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         //OPかチェック
         if (!sender.isOp()) {
-            sender.sendMessage(ChatColor.RED + "このコマンドはOPのみ実行可能です！");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "このコマンドはOPのみ実行可能です！");
             return true;
         }
 
         // 引数が不足している場合
         if (args.length != 1) {
-            sender.sendMessage(ChatColor.RED + "使用方法: /setgamemode <ゲームモード>\n" +
-                                  ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "使用方法: /setgamemode <ゲームモード>\n" +
+                               ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
             for (String modes:GameMode.getModeList()) {
                 sender.sendMessage("  ・ " + ChatColor.AQUA + modes);
             } //ゲームのリストを表示
@@ -40,7 +42,7 @@ public class setGameMode implements CommandExecutor {
         // 無効なゲームモードの場合
         if (mode == null) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED +"Error無効なゲームモードです！\n" +
+                               ChatColor.RED +"Error!!無効なゲームモードです！\n" +
                                ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
             for (String modes:GameMode.getModeList()) {
                 sender.sendMessage("  ・ " + ChatColor.AQUA + modes);

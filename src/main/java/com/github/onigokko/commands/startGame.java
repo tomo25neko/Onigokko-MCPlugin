@@ -1,8 +1,10 @@
 package com.github.onigokko.commands;
 
 import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.StartPointManager;
 import com.github.onigokko.score.Timer;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,10 +14,12 @@ public class startGame implements CommandExecutor {
 
     private final GameManager gameManager;
     private final Timer timer;
+    private final StartPointManager spManager;
 
-    public startGame(GameManager gameManager, Timer timer) {
+    public startGame(GameManager gameManager, Timer timer, StartPointManager spManager) {
         this.gameManager = gameManager;
         this.timer = timer;
+        this.spManager = spManager;
     }
 
     @Override
@@ -48,6 +52,14 @@ public class startGame implements CommandExecutor {
         if (gameManager.getGameModeManager() == null) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
                                ChatColor.RED + "ゲームモードが設定されていません!!");
+            return true;
+        }
+
+        World world = ((Player) sender).getWorld();
+        //スタート地点が設定されているか確認
+        if (spManager.getStartPoint(world) == null) {
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                               ChatColor.RED + "スタート地点が設定されていません");
             return true;
         }
 
