@@ -6,17 +6,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 
 
 public class Fueoni implements GameModeManager {
 
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
+    private final StartPointManager spManager;
 
-    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager) {
+    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
+        this.spManager = spManager;
     }
 
     @Override
@@ -32,8 +33,17 @@ public class Fueoni implements GameModeManager {
     public void startGame() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle(ChatColor.BOLD + "" + ChatColor.BLUE + "増やし鬼スタート!!",
-                             ChatColor.YELLOW + ">>増える鬼から逃げ切れ<<",
+                             ChatColor.YELLOW + ">>鬼が出るまでに安全な場所を見つけよう<<",
                             10,70,20 );
+        }
+    }
+
+    @Override
+    public void releaseHunter() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendTitle(ChatColor.BOLD + "" + ChatColor.RED + "鬼が動き始めた",
+                    ChatColor.YELLOW + ">>増える鬼から逃げ切れ<<",
+                    10,70,20 );
         }
     }
 
@@ -60,16 +70,20 @@ public class Fueoni implements GameModeManager {
 
 
         //鬼チームのリセットのため鬼を逃げチームへ移動
-        for (String player : new ArrayList<>(teamManager.getOni().getEntries())) {
+        for (String player : teamManager.getOni().getEntries()) {
             teamManager.addPlayerToTeam(teamManager.getNige(), player);
         }
+
+        //全プレイヤーをスタート地点へ転送
+
     }
 
     @Override
     public void caughtPlayer(Player attacker, Player damagedPlayer) {
         // 逃げプレイヤーを鬼に変更
         teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
-
+        //鬼になったプレイヤーをスタート地点へテレポート
+        spManager.teleportPlayer(damagedPlayer);
         //捕まった人は個別メッセージ
         damagedPlayer.sendTitle(ChatColor.YELLOW +  "あなたは" +
                                      ChatColor.RED +"[鬼]" + ChatColor.YELLOW +"になった",

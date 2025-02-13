@@ -10,12 +10,14 @@ public class GameManager {
 
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
+    private final StartPointManager spManager;
 
     private boolean gameStart;
 
-    public GameManager(TeamManager teamManager, ScoreboardManager sbManager) {
+    public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
+        this.spManager = spManager;
     }
 
     public void setGameMode(GameMode mode) {
@@ -39,7 +41,7 @@ public class GameManager {
         // ゲームモードに応じたクラスを生成
         switch (mode) {
             case FUEONI:
-                this.gameModeManager = new Fueoni(teamManager,sbManager);
+                this.gameModeManager = new Fueoni(teamManager,sbManager,spManager);
                 break;
             default:
                 this.gameModeManager = null;

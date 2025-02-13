@@ -1,5 +1,6 @@
 package com.github.onigokko.games;
 
+import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -7,17 +8,18 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 public class StartPointManager {
 
-    private final String  START_POINT_NAME = "スタート地点";
+    private final String START_POINT_NAME = "スタート地点";
 
 
     /*
       スタート地点を設定する
       @param player 実行したプレイヤー
      */
-    public void setStartPoint (Player player) {
+    public void setStartPoint(Player player) {
         Location loc = player.getLocation();
         World world = loc.getWorld();
 
@@ -73,8 +75,24 @@ public class StartPointManager {
 
     }
 
-    /* 次回プレイヤーをスタート地点へ飛ばすコマンドの作成
+    /*
      * プレイヤーをスタート地点へtp
-     *  @param
+     *  @param team テレポート対象のチーム
      */
+
+    public void teleportTeam(Team team) {
+
+        for (String playerName : team.getEntries()) {
+            //StringからPlayerへ型変換
+            Player player = Bukkit.getPlayer(playerName);
+            //プレイヤーを現在のワールドのスタートポイントにテレポート
+            player.teleport(getStartPoint(player.getWorld()));
+        }
+    }
+
+    public void teleportPlayer(Player player) {
+        //プレイヤーを現在のワールドのスタートポイントにテレポート
+        player.teleport(getStartPoint(player.getWorld()));
+
+    }
 }

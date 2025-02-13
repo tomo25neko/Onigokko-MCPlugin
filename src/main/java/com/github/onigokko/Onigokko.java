@@ -10,7 +10,6 @@ import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import com.github.onigokko.score.Timer;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,11 +35,11 @@ public final class Onigokko extends JavaPlugin {
         this.sbManager = new ScoreboardManager();
         this.teamManager = new TeamManager(sbManager);
         this.spManager = new StartPointManager();
-        this.gameManager = new GameManager(teamManager,sbManager);
-        this.timer = new Timer(this,sbManager,gameManager);
+        this.gameManager = new GameManager(teamManager,sbManager,spManager);
+        this.timer = new Timer(this,sbManager,gameManager,spManager);
 
         //イベント登録
-        plManager.registerEvents(new PlayerJoin(sbManager,teamManager), this);
+        plManager.registerEvents(new PlayerJoin(sbManager,teamManager,timer), this);
         plManager.registerEvents(new PlayerExit(sbManager,teamManager), this);
 
         plManager.registerEvents(new PlayerDamage(teamManager,gameManager), this);
@@ -49,7 +48,7 @@ public final class Onigokko extends JavaPlugin {
         //コマンド登録
         getCommand("setgametime").setExecutor(new setGameTime(timer));
         getCommand("setgamemode").setExecutor(new setGameMode(gameManager));
-        getCommand("startgame").setExecutor(new startGame(gameManager,timer,spManager));
+        getCommand("startgame").setExecutor(new startGame(gameManager,timer,spManager,teamManager));
         getCommand("stopgame").setExecutor(new stopGame(gameManager,timer));
         getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager,teamManager));
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
@@ -67,6 +66,8 @@ public final class Onigokko extends JavaPlugin {
         sbManager.removeScoreboard();
         //プラグインで作成したアーマースタンドの削除
         spManager.removeStartPoint();
+        //プラグインで作成したボスバーの削除
+        timer.removeBossbar();
 
         //停止通知
         Bukkit.getLogger().info("鬼ごっこプラグインが停止しました / Onigokko Plugin has finished.");

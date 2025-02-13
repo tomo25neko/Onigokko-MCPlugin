@@ -2,9 +2,9 @@ package com.github.onigokko.commands;
 
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.StartPointManager;
+import com.github.onigokko.score.TeamManager;
 import com.github.onigokko.score.Timer;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,11 +15,13 @@ public class startGame implements CommandExecutor {
     private final GameManager gameManager;
     private final Timer timer;
     private final StartPointManager spManager;
+    private final TeamManager teamManager;
 
-    public startGame(GameManager gameManager, Timer timer, StartPointManager spManager) {
+    public startGame(GameManager gameManager, Timer timer, StartPointManager spManager, TeamManager teamManager) {
         this.gameManager = gameManager;
         this.timer = timer;
         this.spManager = spManager;
+        this.teamManager = teamManager;
     }
 
     @Override
@@ -63,8 +65,16 @@ public class startGame implements CommandExecutor {
             return true;
         }
 
+//        //次回以降　効果音設定
+//        for (Player player : Bukkit.getOnlinePlayers()) {
+//            player.playSound(player, Sound.BLOCK_ANVIL_BREAK, 1.0F, 1.0F);
+//        }
+
         gameManager.getGameModeManager().startGame();//現在のゲームモードのスタート処理を呼び出す
-        timer.startTimer();//カウントダウン　スタート処理呼び出し
+        spManager.teleportTeam(teamManager.getNige());//逃げチームを先にテレポート
+        timer.startTimer(teamManager.getOni());//スタート処理呼び出し
+
+
 
         return true;
     }
