@@ -55,7 +55,7 @@ public final class Onigokko extends JavaPlugin {
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
 
         //起動通知
-        Bukkit.getLogger().info("増やし鬼プラグインが起動しました/Fuyasi Oni Plugin has started.");
+        Bukkit.getLogger().info("鬼ごっこプラグインが起動しました / Onigokko Plugin has started.");
     }
 
     @Override
@@ -69,7 +69,7 @@ public final class Onigokko extends JavaPlugin {
         spManager.removeStartPoint();
 
         //停止通知
-        Bukkit.getLogger().info("増やし鬼プラグインが停止しました / Fuyasi Oni Plugin has finished.");
+        Bukkit.getLogger().info("鬼ごっこプラグインが停止しました / Onigokko Plugin has finished.");
     }
 
 }
