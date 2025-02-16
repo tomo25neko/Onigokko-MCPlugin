@@ -1,5 +1,6 @@
 package com.github.onigokko.score;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -40,7 +41,7 @@ public class TeamManager {
      */
     public void setOniAttack(Boolean b) {
         if(b) {
-            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
+            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM); // 自チーム以外には攻撃可能
         } else {
             oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER); // 攻撃不可
         }

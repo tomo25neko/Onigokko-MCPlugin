@@ -39,7 +39,6 @@ public class PlayerDamage implements Listener{
             //ゲームモード固有の処理を呼び出す
             gameManager.getGameModeManager().caughtPlayer(attacker,damagedPlayer);
 
-            event.setCancelled(true);
         }
 
     }
