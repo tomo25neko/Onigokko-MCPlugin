@@ -21,3 +21,6 @@ commands:
   setteam:
     description: プレイヤーをチームに追加するコマンド
     usage: /setteam <oni | nige> <player | random> <int>
+  setstart:
+    description: スタート地点設定コマンド
+    usage: /setstart

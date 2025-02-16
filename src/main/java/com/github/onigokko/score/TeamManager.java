@@ -23,15 +23,26 @@ public class TeamManager {
         if (scoreboard.getTeam("oni") == null) {
             oni = scoreboard.registerNewTeam("oni");
             oni.setPrefix(ChatColor.RED + "[鬼] ");//プレイヤーの名前の前につくチーム名の変更
-            oni.setDisplayName(ChatColor.RED + "[鬼]" + ChatColor.GREEN + "チーム:    %d人");//表示名変更
+            oni.setDisplayName(ChatColor.RED + "[鬼]" + ChatColor.GREEN + "チーム：    %d人");//表示名変更
 
             //チームの詳細設定
-            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
+            setOniAttack(false); //攻撃不可
             oni.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM); //自チームにネームタグ常時表示
             oni.setCanSeeFriendlyInvisibles(true); // 不可視状態の味方は視認可能
 
             //スコア表示
             setTeamSizeToScoreboard(oni);
+        }
+    }
+    /*
+     *鬼が攻撃可能か設定
+     * @param b == true 攻撃可能
+     */
+    public void setOniAttack(Boolean b) {
+        if(b) {
+            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OTHER_TEAMS); // 自チーム以外には攻撃可能
+        } else {
+            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER); // 攻撃不可
         }
     }
 
@@ -72,17 +83,15 @@ public class TeamManager {
     //指定されたプレイヤーを全てのチーム(鬼と逃げ)から削除
     public void removePlayerAllTeam(String player) {
         for (Team team : scoreboard.getTeams()) {
-            if (team.hasEntry(player)) {
-                team.removeEntry(player);
-                setTeamSizeToScoreboard(team);
-            }
+            //プレイヤーをチームから削除できたら、スコア更新
+            if (team.removeEntry(player)) setTeamSizeToScoreboard(team);
         }
     }
 
     //新たなチームサイズの反映処理。
     private void setTeamSizeToScoreboard(Team team) {
         //oniチームなら3で、nigeチームなら4の順番で表示
-        sbManager.setScore(team.getDisplayName(), team.getSize(), (team == nige ? 4 : 3));
+        sbManager.setScore(team.getDisplayName(), team.getSize(), (team.getName().equals("nige") ? 4 : 3));
     }
 
     //全てのチームを削除

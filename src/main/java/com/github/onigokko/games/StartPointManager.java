@@ -1,6 +1,5 @@
 package com.github.onigokko.games;
 
-import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -30,10 +29,10 @@ public class StartPointManager {
         ArmorStand stand = (ArmorStand) world.spawnEntity(loc, EntityType.ARMOR_STAND);
         //名前設定
         stand.setCustomName(START_POINT_NAME);
+        //スタンドが見えないようにする
+        stand.setInvisible(true);
         //名前は見える
         stand.setCustomNameVisible(true);
-        //スタンドが見えないようにする
-        stand.setInvisible(false);
         //重力の影響を受ける(空中に設置した場合に備えて)
         stand.setGravity(true);
         //無敵
