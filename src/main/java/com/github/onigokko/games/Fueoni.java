@@ -4,6 +4,7 @@ import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 
@@ -13,11 +14,13 @@ public class Fueoni implements GameModeManager {
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
+    private final GameManager gameManager;
 
-    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
+    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;
+        this.gameManager = gameManager;
     }
 
     @Override
@@ -65,17 +68,18 @@ public class Fueoni implements GameModeManager {
 
         // 全プレイヤーにタイトルを表示
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(ChatColor.BOLD + "" +titleColor + title, ChatColor.YELLOW + subtitle, 10, 70, 20);
+            player.sendTitle(ChatColor.BOLD + "" +titleColor + title, ChatColor.YELLOW + subtitle, 10, 100, 20);
         }
 
+        gameManager.playSoundToAllPlayer(Sound.BLOCK_END_PORTAL_SPAWN);//エンドポータルの効果音
 
         //鬼チームのリセットのため鬼を逃げチームへ移動
         for (String player : teamManager.getOni().getEntries()) {
             teamManager.addPlayerToTeam(teamManager.getNige(), player);
         }
 
-        //全プレイヤーをスタート地点へ転送
-
+        //全プレイヤーをスタート地点へ転送 事前に逃げチームにしてるので逃げのみでOK
+        spManager.teleportTeam(teamManager.getNige());
     }
 
     @Override

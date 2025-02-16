@@ -65,10 +65,7 @@ public class startGame implements CommandExecutor {
             return true;
         }
 
-//        //次回以降　効果音設定
-//        for (Player player : Bukkit.getOnlinePlayers()) {
-//            player.playSound(player, Sound.BLOCK_ANVIL_BREAK, 1.0F, 1.0F);
-//        }
+        gameManager.playSoundToAllPlayer(Sound.EVENT_RAID_HORN);
 
         gameManager.getGameModeManager().startGame();//現在のゲームモードのスタート処理を呼び出す
         spManager.teleportTeam(teamManager.getNige());//逃げチームを先にテレポート

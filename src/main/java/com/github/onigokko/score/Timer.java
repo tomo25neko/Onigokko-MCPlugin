@@ -4,6 +4,7 @@ import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.StartPointManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -76,9 +77,14 @@ public class Timer {
                 if (escapeTime > 0) {
                     // 逃げるための残り時間を表示
                     timerBossBar.setTitle(ChatColor.YELLOW + "鬼の出現まで："+ escapeTime + "秒");
+                    if (escapeTime <= 5) {
+                        gameManager.playSoundToAllPlayer(Sound.ITEM_TRIDENT_RETURN);//鬼の開放５秒前から効果音再生
+                    }
+
                     escapeTime--;
                 } else {
                     // 逃げる時間終了時の処理
+                    gameManager.playSoundToAllPlayer(Sound.BLOCK_RESPAWN_ANCHOR_DEPLETE);
                     spManager.teleportTeam(team); // 鬼チームのプレイヤーをスタート地点へ転送
                     gameManager.getGameModeManager().releaseHunter(); //ゲームモードの鬼がスタートしたときのメッセージを送信
 
