@@ -1,6 +1,5 @@
 package com.github.onigokko.score;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -27,23 +26,12 @@ public class TeamManager {
             oni.setDisplayName(ChatColor.RED + "[鬼]" + ChatColor.GREEN + "チーム：    %d人");//表示名変更
 
             //チームの詳細設定
-            setOniAttack(false); //攻撃不可
+            oni.setAllowFriendlyFire(false);//チーム内フレンドリファイア無効
             oni.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM); //自チームにネームタグ常時表示
             oni.setCanSeeFriendlyInvisibles(true); // 不可視状態の味方は視認可能
 
             //スコア表示
             setTeamSizeToScoreboard(oni);
-        }
-    }
-    /*
-     *鬼が攻撃可能か設定
-     * @param b == true 攻撃可能
-     */
-    public void setOniAttack(Boolean b) {
-        if(b) {
-            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM); // 自チーム以外には攻撃可能
-        } else {
-            oni.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER); // 攻撃不可
         }
     }
 
@@ -55,7 +43,7 @@ public class TeamManager {
             nige.setDisplayName(ChatColor.DARK_AQUA + "[逃げ]" + ChatColor.GREEN + "チーム： %d人");
 
             //チームの詳細設定
-            nige.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER); // チーム内のフレンドリーファイア無効
+            nige.setAllowFriendlyFire(false); // チーム内のフレンドリーファイア無効
             nige.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER); // ネームタグ常時非表示
             nige.setCanSeeFriendlyInvisibles(false); // 不可視状態の味方は視認不可
 

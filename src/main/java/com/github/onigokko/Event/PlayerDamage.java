@@ -1,6 +1,7 @@
 package com.github.onigokko.Event;
 
 import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.GameModeManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,12 +34,18 @@ public class PlayerDamage implements Listener{
             return;
         }
 
-        // 鬼チームのプレイヤーが、逃げチームのプレイヤーを攻撃した場合
-        if (teamManager.getOni().hasEntry(attacker.getName()) &&
-                teamManager.getNige().hasEntry(damagedPlayer.getName())) {
-            //ゲームモード固有の処理を呼び出す
-            gameManager.getGameModeManager().caughtPlayer(attacker,damagedPlayer);
+        //攻撃者が逃げなら キャンセル
+        if (teamManager.getNige().hasEntry(attacker.getName())) {
+            event.setCancelled(true);
+        }
 
+        // 鬼チームのプレイヤーが、逃げチームのプレイヤーを攻撃した場合
+        if (teamManager.getOni().hasEntry(attacker.getName()) && teamManager.getNige().hasEntry(damagedPlayer.getName())) {
+            GameModeManager gm = gameManager.getGameModeManager();//使い回すための代入
+            //ゲームモード固有の処理を呼び出す
+            gm.caughtPlayer(attacker,damagedPlayer);
+
+            if ((teamManager.getNige().getSize() == 0)) gm.endGame();//もし逃げチームが全滅なら終了
         }
 
     }

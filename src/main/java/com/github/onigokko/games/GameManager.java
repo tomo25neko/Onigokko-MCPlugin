@@ -15,7 +15,7 @@ public class GameManager {
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
 
-    private boolean gameStart;
+    private boolean gameStart = false;
 
     public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
         this.teamManager = teamManager;

@@ -32,18 +32,18 @@ public class startGame implements CommandExecutor {
                                ChatColor.RED + "すでにゲーム中です!!");
             return true;
         }
-
-        if (!(sender instanceof Player)) {
+        if (timer.isStartEscapeCountdown()) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "プレイヤーのみ実行可能です！");
+                    ChatColor.RED + "すでに逃げ中です!!");
             return true;
         }
 
-        if (!(sender.isOp())) {
+        if (!(sender instanceof Player) && !(sender.isOp())) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "OP権限があるプレイヤーのみ実行可能です!");
+                               ChatColor.RED + "OP権限があるプレイヤーのみ実行可能です！");
             return true;
         }
+
 
         if (timer.getTime() == 0) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +

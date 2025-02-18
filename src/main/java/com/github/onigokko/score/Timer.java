@@ -18,20 +18,18 @@ public class Timer {
     private final Plugin plugin;
     private final GameManager gameManager;
     private final StartPointManager spManager;
-    private final TeamManager teamManager;
 
-    private BukkitRunnable mainTimerTask, escapeTimerTask;
+    private BukkitRunnable mainTimerTask=null, escapeTimerTask=null;
     private int escapeTime;
     private int time = 0;
     private int timeCount;
 
     private final BossBar timerBossBar;
 
-    public Timer(Plugin plugin, GameManager gameManager, StartPointManager spManager, TeamManager teamManager) {
+    public Timer(Plugin plugin, GameManager gameManager, StartPointManager spManager) {
         this.plugin = plugin;
         this.gameManager = gameManager;
         this.spManager = spManager;
-        this.teamManager = teamManager;
 
 
         //ボスバーの初期化
@@ -63,7 +61,6 @@ public class Timer {
         escapeTime = 30;//逃げるための時間をリセット
         //鬼が出現するまでのタイマーを起動
         startEscapeCountdown(team);//
-        gameManager.setGameStart(true);//ゲームを進行中にする
     }
 
     /*
@@ -91,12 +88,16 @@ public class Timer {
                     stopTimer();//escapeTimerの初期化(null)
                     // 逃げる時間終了後にメインのゲームカウントダウンを開始
                     startMainTimer();
-                    teamManager.setOniAttack(true);//逃げチームに攻撃可能にする
+                    gameManager.setGameStart(true);//ゲームを進行中にする
                 }
             }
         };
 
         escapeTimerTask.runTaskTimer(plugin, 0L, 20L);
+    }
+    //null true  !null false
+    public boolean isStartEscapeCountdown() {
+        return escapeTimerTask != null;
     }
 
     //タイマー本体
@@ -112,7 +113,6 @@ public class Timer {
 
                     //以下ゲームの終了処理
                     gameManager.getGameModeManager().endGame();//現在のゲームモードクラスのend処理呼び出し
-                    teamManager.setOniAttack(false);
                 } else {
                     timerBossBar.setTitle(ChatColor.GREEN + "残り時間： " + timeCount +"秒");
                     timeCount--;

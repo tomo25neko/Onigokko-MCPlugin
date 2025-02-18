@@ -1,8 +1,8 @@
 package com.github.onigokko;
 
+import com.github.onigokko.Event.BreakBlock;
 import com.github.onigokko.Event.PlayerDamage;
-import com.github.onigokko.Event.PlayerExit;
-import com.github.onigokko.Event.PlayerJoin;
+import com.github.onigokko.Event.PlayerConnection;
 import com.github.onigokko.commands.*;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.StartPointManager;
@@ -36,13 +36,12 @@ public final class Onigokko extends JavaPlugin {
         this.teamManager = new TeamManager(sbManager);
         this.spManager = new StartPointManager();
         this.gameManager = new GameManager(teamManager,sbManager,spManager);
-        this.timer = new Timer(this,gameManager,spManager,teamManager);
+        this.timer = new Timer(this,gameManager,spManager);
 
         //イベント登録
-        plManager.registerEvents(new PlayerJoin(sbManager,teamManager,timer), this);
-        plManager.registerEvents(new PlayerExit(sbManager,teamManager), this);
-
+        plManager.registerEvents(new PlayerConnection(sbManager,teamManager,timer), this);
         plManager.registerEvents(new PlayerDamage(teamManager,gameManager), this);
+        plManager.registerEvents(new BreakBlock(),this);
 
 
         //コマンド登録
