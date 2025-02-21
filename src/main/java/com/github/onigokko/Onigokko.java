@@ -5,6 +5,7 @@ import com.github.onigokko.Event.PlayerDamage;
 import com.github.onigokko.Event.PlayerConnection;
 import com.github.onigokko.commands.*;
 import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.OniManager;
 import com.github.onigokko.games.StartPointManager;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
@@ -23,6 +24,7 @@ public final class Onigokko extends JavaPlugin {
     private StartPointManager spManager;
     private GameManager gameManager;
     private Timer timer;
+    private OniManager oniManager;
 
     @Override
     public void onEnable() {
@@ -35,8 +37,10 @@ public final class Onigokko extends JavaPlugin {
         this.sbManager = new ScoreboardManager();
         this.teamManager = new TeamManager(sbManager);
         this.spManager = new StartPointManager();
-        this.gameManager = new GameManager(teamManager,sbManager,spManager);
-        this.timer = new Timer(this,gameManager,spManager);
+        this.gameManager = new GameManager(teamManager,sbManager,spManager,oniManager);
+        this.timer = new Timer(this,gameManager,spManager,oniManager,teamManager);
+        this.oniManager = new OniManager();
+
 
         //イベント登録
         plManager.registerEvents(new PlayerConnection(sbManager,teamManager,timer), this);
@@ -49,7 +53,7 @@ public final class Onigokko extends JavaPlugin {
         getCommand("setgamemode").setExecutor(new setGameMode(gameManager));
         getCommand("startgame").setExecutor(new startGame(gameManager,timer,spManager,teamManager));
         getCommand("stopgame").setExecutor(new stopGame(gameManager,timer));
-        getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager,teamManager));
+        getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager,teamManager,oniManager));
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
 
         //起動通知

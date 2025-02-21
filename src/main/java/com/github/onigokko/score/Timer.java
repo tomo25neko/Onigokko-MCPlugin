@@ -1,6 +1,8 @@
 package com.github.onigokko.score;
 
+import com.github.onigokko.Onigokko;
 import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.OniManager;
 import com.github.onigokko.games.StartPointManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,6 +20,8 @@ public class Timer {
     private final Plugin plugin;
     private final GameManager gameManager;
     private final StartPointManager spManager;
+    private final OniManager oniManager;
+    private final TeamManager teamManager;
 
     private BukkitRunnable mainTimerTask=null, escapeTimerTask=null;
     private int escapeTime;
@@ -26,10 +30,12 @@ public class Timer {
 
     private final BossBar timerBossBar;
 
-    public Timer(Plugin plugin, GameManager gameManager, StartPointManager spManager) {
+    public Timer(Plugin plugin, GameManager gameManager, StartPointManager spManager, OniManager oniManager, TeamManager teamManager) {
         this.plugin = plugin;
         this.gameManager = gameManager;
         this.spManager = spManager;
+        this.oniManager = oniManager;
+        this.teamManager = teamManager;
 
 
         //ボスバーの初期化
@@ -102,7 +108,6 @@ public class Timer {
 
     //タイマー本体
     private void startMainTimer() {
-
         mainTimerTask = new BukkitRunnable() {
             @Override
             public void run() {
@@ -113,8 +118,14 @@ public class Timer {
 
                     //以下ゲームの終了処理
                     gameManager.getGameModeManager().endGame();//現在のゲームモードクラスのend処理呼び出し
+                    //鬼装備の削除
+                    for (String name : teamManager.getOni().getEntries()) {
+                        Player player = Bukkit.getPlayer(name);
+                        oniManager.removeOniEquipment(player);
+                    }
                 } else {
                     timerBossBar.setTitle(ChatColor.GREEN + "残り時間： " + timeCount +"秒");
+                    teamManager.getOni().getEntries().forEach(oniManager::displayOniParticles);//鬼にパーティクルを生成
                     timeCount--;
                 }
             }

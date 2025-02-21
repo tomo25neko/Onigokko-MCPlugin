@@ -1,6 +1,7 @@
 package com.github.onigokko.commands;
 
 import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.OniManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,10 +21,12 @@ public class setTeamToPlayer implements CommandExecutor {
 
     private final GameManager gameManager;
     private final TeamManager teamManager;
+    private final OniManager oniManager;
 
-    public setTeamToPlayer(GameManager gameManager, TeamManager teamManager) {
+    public setTeamToPlayer(GameManager gameManager, TeamManager teamManager, OniManager oniManager) {
         this.gameManager = gameManager;
         this.teamManager = teamManager;
+        this.oniManager = oniManager;
     }
 
     @Override
@@ -99,8 +102,9 @@ public class setTeamToPlayer implements CommandExecutor {
             int added = 0;
             for (Player player : candidates) {
                 if (added >= count) break;
-                teamManager.addPlayerToTeam(teamManager.getOni(), player.getName());
-                Bukkit.broadcastMessage(" ・" + player.getName());
+                oniManager.applyOniEquipment(player);//鬼装備セット
+                teamManager.addPlayerToTeam(teamManager.getOni(), player.getName());//鬼に追加
+                Bukkit.broadcastMessage(" ・" + player.getName());//全プレイヤーに告知
                 added++;
             }
 

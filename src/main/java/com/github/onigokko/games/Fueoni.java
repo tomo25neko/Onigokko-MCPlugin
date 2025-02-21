@@ -15,12 +15,14 @@ public class Fueoni implements GameModeManager {
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
     private final GameManager gameManager;
+    private final OniManager oniManager;
 
-    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
+    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager, OniManager oniManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;
         this.gameManager = gameManager;
+        this.oniManager = oniManager;
     }
 
     @Override
@@ -72,8 +74,7 @@ public class Fueoni implements GameModeManager {
         }
 
         gameManager.playSoundToAllPlayer(Sound.BLOCK_END_PORTAL_SPAWN);//エンドポータルの効果音
-
-        //鬼チームのリセットのため鬼を逃げチームへ移動
+         //鬼チームのリセットのため鬼を逃げチームへ移動
         for (String player : teamManager.getOni().getEntries()) {
             teamManager.addPlayerToTeam(teamManager.getNige(), player);
         }
@@ -86,6 +87,8 @@ public class Fueoni implements GameModeManager {
     public void caughtPlayer(Player attacker, Player damagedPlayer) {
         // 逃げプレイヤーを鬼に変更
         teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
+        //鬼装備をつける
+        oniManager.applyOniEquipment(damagedPlayer);
         //鬼になったプレイヤーをスタート地点へテレポート
         spManager.teleportPlayer(damagedPlayer);
         //捕まった人は個別メッセージ

@@ -80,7 +80,6 @@ public class StartPointManager {
      */
 
     public void teleportTeam(Team team) {
-
         for (String playerName : team.getEntries()) {
             //StringからPlayerへ型変換
             Player player = Bukkit.getPlayer(playerName);

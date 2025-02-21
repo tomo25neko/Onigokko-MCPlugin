@@ -59,7 +59,6 @@ public class setGameMode implements CommandExecutor {
         // ゲームモードを設定
         gameManager.setGameMode(mode);
 
-
         // 全プレイヤーにゲームモードが変更されたことを通知
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle(ChatColor.GREEN + "ゲームモード" +

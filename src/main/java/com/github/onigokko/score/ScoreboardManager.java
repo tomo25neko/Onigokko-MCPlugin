@@ -76,9 +76,7 @@ public class ScoreboardManager {
         }
 
         Scoreboard emptyBoard = Bukkit.getScoreboardManager().getNewScoreboard();
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.setScoreboard(emptyBoard);
-        }
+        for (Player player : Bukkit.getOnlinePlayers()) { player.setScoreboard(emptyBoard); }
     }
 
 }

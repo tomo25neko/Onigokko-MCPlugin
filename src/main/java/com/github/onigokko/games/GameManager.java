@@ -14,13 +14,15 @@ public class GameManager {
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
+    private final OniManager oniManager;
 
     private boolean gameStart = false;
 
-    public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
+    public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, OniManager oniManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;
+        this.oniManager = oniManager;
     }
 
     public void setGameMode(GameMode mode) {
@@ -45,16 +47,15 @@ public class GameManager {
      * @parm sound 再生する音
      */
     public void playSoundToAllPlayer(Sound sound) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player,sound,1.0f,1.0f);
-        }
+        Bukkit.getOnlinePlayers().forEach(player ->
+                player.playSound(player,sound,1.0f,1.0f));
     }
 
     private void setupGame(GameMode mode) {
         // ゲームモードに応じたクラスを生成
         switch (mode) {
             case FUEONI:
-                this.gameModeManager = new Fueoni(teamManager,sbManager,spManager,this);
+                this.gameModeManager = new Fueoni(teamManager,sbManager,spManager,this,oniManager);
                 break;
             default:
                 this.gameModeManager = null;
