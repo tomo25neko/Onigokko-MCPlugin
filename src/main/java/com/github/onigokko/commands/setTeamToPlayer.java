@@ -102,7 +102,6 @@ public class setTeamToPlayer implements CommandExecutor {
             int added = 0;
             for (Player player : candidates) {
                 if (added >= count) break;
-                oniManager.applyOniEquipment(player);//鬼装備セット
                 teamManager.addPlayerToTeam(teamManager.getOni(), player.getName());//鬼に追加
                 Bukkit.broadcastMessage(" ・" + player.getName());//全プレイヤーに告知
                 added++;

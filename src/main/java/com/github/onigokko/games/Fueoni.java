@@ -58,7 +58,7 @@ public class Fueoni implements GameModeManager {
         String subtitle;
         ChatColor titleColor;
 
-        if (teamManager.getNige().getSize() == 0) {
+        if (teamManager.getNige().getSize() <= 0) {
             title = "鬼チームの勝利！";
             subtitle = "===生存者がいなくなりました！===";
             titleColor = ChatColor.RED;
@@ -78,17 +78,24 @@ public class Fueoni implements GameModeManager {
         for (String player : teamManager.getOni().getEntries()) {
             teamManager.addPlayerToTeam(teamManager.getNige(), player);
         }
+        Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " + "全てのプレイヤーを逃げチームに移動しました");
 
         //全プレイヤーをスタート地点へ転送 事前に逃げチームにしてるので逃げのみでOK
         spManager.teleportTeam(teamManager.getNige());
+
+        gameManager.setGameStart(false);
     }
 
     @Override
     public void caughtPlayer(Player attacker, Player damagedPlayer) {
         // 逃げプレイヤーを鬼に変更
         teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
-        //鬼装備をつける
-        oniManager.applyOniEquipment(damagedPlayer);
+        //もし逃げチームが全滅なら終了
+        if (teamManager.getNige().getSize() == 0) {
+            endGame();
+            return;
+        }
+
         //鬼になったプレイヤーをスタート地点へテレポート
         spManager.teleportPlayer(damagedPlayer);
         //捕まった人は個別メッセージ

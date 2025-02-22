@@ -32,6 +32,7 @@ public class PlayerDamage implements Listener{
         }
         //今がゲーム中か確認
         if (!(gM.isGameStart())) {
+            event.setCancelled(true);
             return;
         }
 
@@ -42,12 +43,10 @@ public class PlayerDamage implements Listener{
 
         // 鬼チームのプレイヤーが、逃げチームのプレイヤーを攻撃した場合
         if (teamManager.getOni().hasEntry(attacker.getName()) && teamManager.getNige().hasEntry(damagedPlayer.getName())) {
-            GameModeManager gMM = gM.getGameModeManager();//使い回すための代入
-            //ゲームモード固有の処理を呼び出す
-            gMM.caughtPlayer(attacker,damagedPlayer);
-            gM.playSoundToAllPlayer(Sound.ENTITY_EXPERIENCE_ORB_PICKUP);//捕まったのをわかりやすくするため
+            GameModeManager gameModeManager = gM.getGameModeManager();//使い回すための代入
 
-            if ((teamManager.getNige().getSize() == 0)){ gMM.endGame(); }//もし逃げチームが全滅なら終了
+            //ゲームモード固有の処理を呼び出す
+            gameModeManager.caughtPlayer(attacker, damagedPlayer);
         }
 
     }

@@ -1,6 +1,9 @@
 package com.github.onigokko.score;
 
+import com.github.onigokko.games.OniManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -10,9 +13,11 @@ public class TeamManager {
     private Team nige;
     private final ScoreboardManager sbManager;
     private final Scoreboard scoreboard;
+    private final OniManager oniManager;
 
-    public TeamManager(ScoreboardManager scoreboardManager) {
+    public TeamManager(ScoreboardManager scoreboardManager, OniManager oniManager) {
         this.sbManager = scoreboardManager;
+        this.oniManager = oniManager;
         this.scoreboard = sbManager.getScoreboard();
         createOniTeams();
         createNigeTeams();
@@ -27,7 +32,7 @@ public class TeamManager {
 
             //チームの詳細設定
             oni.setAllowFriendlyFire(false);//チーム内フレンドリファイア無効
-            oni.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM); //自チームにネームタグ常時表示
+            oni.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS); //自チームに以外にネームタグ表示しない
             oni.setCanSeeFriendlyInvisibles(true); // 不可視状態の味方は視認可能
 
             //スコア表示
@@ -63,10 +68,15 @@ public class TeamManager {
     }
 
     //プレイヤーを指定されたチームに追加
-    public void addPlayerToTeam(Team team, String player) {
-        removePlayerAllTeam(player);
-        team.addEntry(player);
+    public void addPlayerToTeam(Team team, String playerName) {
+        removePlayerAllTeam(playerName);
+        team.addEntry(playerName);
         setTeamSizeToScoreboard(team);
+        //鬼チームに追加の場合装備をセット
+        if(team.getName().equals(oni.getName())) {
+            Player player = Bukkit.getPlayer(playerName);
+            oniManager.applyOniEquipment(player);
+        }
     }
 
     //指定されたプレイヤーを全てのチーム(鬼と逃げ)から削除

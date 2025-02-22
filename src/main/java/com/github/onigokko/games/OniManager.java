@@ -17,7 +17,8 @@ public class OniManager {
      */
     public void applyOniEquipment(Player player) {
         ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-        LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();
+
+        LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();//LeatherArmorMeta型に変換
         if (meta != null) {
             meta.setColor(Color.RED); // 赤色に染色
             meta.setDisplayName("§c鬼の胸当て"); // カスタムネームで識別可能に
@@ -43,8 +44,8 @@ public class OniManager {
         player.getWorld().spawnParticle(
                 Particle.REDSTONE,
                 player.getLocation().add(0, 1, 0), // 頭上
-                3,         // パーティクルの数（少なめ）
-                0.2, 0.2, 0.2, // 拡散範囲（控えめ）
+                5,         // パーティクルの数（少なめ）
+                0.5, 0.5, 0.5, // 拡散範囲（控えめ）
                 new Particle.DustOptions(Color.RED, 1.0f) // 赤色、サイズ1.0
         );
     }
