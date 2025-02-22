@@ -4,7 +4,9 @@ import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.StartPointManager;
 import com.github.onigokko.score.TeamManager;
 import com.github.onigokko.score.Timer;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +31,7 @@ public class startGame implements CommandExecutor {
 
         if (gameManager.isGameStart()) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "すでにゲーム中です!!");
+                    ChatColor.RED + "すでにゲーム中です!!");
             return true;
         }
         if (timer.isStartEscapeCountdown()) {
@@ -40,20 +42,20 @@ public class startGame implements CommandExecutor {
 
         if (!(sender instanceof Player) && !(sender.isOp())) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "OP権限があるプレイヤーのみ実行可能です！");
+                    ChatColor.RED + "OP権限があるプレイヤーのみ実行可能です！");
             return true;
         }
 
 
         if (timer.getTime() == 0) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "ゲームの時間が0秒です！！");
+                    ChatColor.RED + "ゲームの時間が0秒です！！");
             return true;
         }
 
         if (gameManager.getGameModeManager() == null) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "ゲームモードが設定されていません!!");
+                    ChatColor.RED + "ゲームモードが設定されていません!!");
             return true;
         }
 
@@ -61,7 +63,7 @@ public class startGame implements CommandExecutor {
         //スタート地点が設定されているか確認
         if (spManager.getStartPoint(world) == null) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "スタート地点が設定されていません");
+                    ChatColor.RED + "スタート地点が設定されていません");
             return true;
         }
 
@@ -70,7 +72,6 @@ public class startGame implements CommandExecutor {
         gameManager.getGameModeManager().startGame();//現在のゲームモードのスタート処理を呼び出す
         spManager.teleportTeam(teamManager.getNige());//逃げチームを先にテレポート
         timer.startTimer(teamManager.getOni());//スタート処理呼び出し
-
 
 
         return true;

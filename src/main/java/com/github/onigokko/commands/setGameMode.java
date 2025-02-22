@@ -16,21 +16,22 @@ public class setGameMode implements CommandExecutor {
     public setGameMode(GameManager gameManager) {
         this.gameManager = gameManager;
     }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         //OPかチェック
         if (!sender.isOp()) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "このコマンドはOPのみ実行可能です！");
+                    ChatColor.RED + "このコマンドはOPのみ実行可能です！");
             return true;
         }
 
         // 引数が不足している場合
         if (args.length != 1) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "使用方法: /setgamemode <ゲームモード>\n" +
-                               ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
-            for (String modes:GameMode.getModeList()) {
+                    ChatColor.RED + "使用方法: /setgamemode <ゲームモード>\n" +
+                    ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
+            for (String modes : GameMode.getModeList()) {
                 sender.sendMessage("  ・ " + ChatColor.AQUA + modes);
             } //ゲームのリストを表示
             return true;
@@ -42,17 +43,17 @@ public class setGameMode implements CommandExecutor {
         // 無効なゲームモードの場合
         if (mode == null) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED +"Error!!無効なゲームモードです！\n" +
-                               ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
-            for (String modes:GameMode.getModeList()) {
+                    ChatColor.RED + "Error!!無効なゲームモードです！\n" +
+                    ChatColor.YELLOW + "~~~ゲームモード一覧~~~");
+            for (String modes : GameMode.getModeList()) {
                 sender.sendMessage("  ・ " + ChatColor.AQUA + modes);
             } //ゲームのリストを表示
             return true;
         }
 
-        if(gameManager.isGameStart()) {
+        if (gameManager.isGameStart()) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "ゲームは現在進行中です！！");
+                    ChatColor.RED + "ゲームは現在進行中です！！");
             return true;
         }
 
@@ -62,9 +63,9 @@ public class setGameMode implements CommandExecutor {
         // 全プレイヤーにゲームモードが変更されたことを通知
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle(ChatColor.GREEN + "ゲームモード" +
-                            ChatColor.DARK_AQUA +"[" + mode.getDisplayName() + "]",
-                            ChatColor.YELLOW +"増える鬼から逃げよう！",
-                            10, 70, 20);
+                            ChatColor.DARK_AQUA + "[" + mode.getDisplayName() + "]",
+                    ChatColor.YELLOW + "増える鬼から逃げよう！",
+                    10, 70, 20);
         }
 
         return true;

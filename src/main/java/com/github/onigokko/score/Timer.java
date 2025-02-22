@@ -1,6 +1,5 @@
 package com.github.onigokko.score;
 
-import com.github.onigokko.Onigokko;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.OniManager;
 import com.github.onigokko.games.StartPointManager;
@@ -23,7 +22,7 @@ public class Timer {
     private final OniManager oniManager;
     private final TeamManager teamManager;
 
-    private BukkitRunnable mainTimerTask=null, escapeTimerTask=null;
+    private BukkitRunnable mainTimerTask = null, escapeTimerTask = null;
     private int escapeTime;
     private int time = 0;
     private int timeCount;
@@ -41,11 +40,13 @@ public class Timer {
         //ボスバーの初期化
         timerBossBar = Bukkit.createBossBar(ChatColor.GREEN + "ゲーム時間：  未設定", BarColor.GREEN, BarStyle.SOLID);
     }
+
     //時間の設定
     public void setTime(int time) {
         this.time = time;
         timerBossBar.setTitle(ChatColor.GREEN + "ゲーム時間： " + time + "秒");
     }
+
     public int getTime() {
         return time;
     }
@@ -54,6 +55,7 @@ public class Timer {
     public void showBossbar(Player player) {
         timerBossBar.addPlayer(player);
     }
+
     //ボスバー削除
     public void removeBossbar() {
         timerBossBar.removeAll();
@@ -79,7 +81,7 @@ public class Timer {
             public void run() {
                 if (escapeTime > 0) {
                     // 逃げるための残り時間を表示
-                    timerBossBar.setTitle(ChatColor.YELLOW + "鬼の出現まで："+ escapeTime + "秒");
+                    timerBossBar.setTitle(ChatColor.YELLOW + "鬼の出現まで：" + escapeTime + "秒");
                     if (escapeTime <= 5) {
                         gameManager.playSoundToAllPlayer(Sound.ITEM_TRIDENT_RETURN);//鬼の開放５秒前から効果音再生
                     }
@@ -101,6 +103,7 @@ public class Timer {
 
         escapeTimerTask.runTaskTimer(plugin, 0L, 20L);
     }
+
     //null true  !null false
     public boolean isStartEscapeCountdown() {
         return escapeTimerTask != null;
@@ -124,7 +127,7 @@ public class Timer {
                         oniManager.removeOniEquipment(player);
                     }
                 } else {
-                    timerBossBar.setTitle(ChatColor.GREEN + "残り時間： " + timeCount +"秒");
+                    timerBossBar.setTitle(ChatColor.GREEN + "残り時間： " + timeCount + "秒");
                     teamManager.getOni().getEntries().forEach(oniManager::displayOniParticles);//鬼にパーティクルを生成
                     timeCount--;
                 }

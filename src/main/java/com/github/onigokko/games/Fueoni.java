@@ -8,21 +8,18 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 
-
 public class Fueoni implements GameModeManager {
 
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
     private final GameManager gameManager;
-    private final OniManager oniManager;
 
-    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager, OniManager oniManager) {
+    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;
         this.gameManager = gameManager;
-        this.oniManager = oniManager;
     }
 
     @Override
@@ -38,8 +35,8 @@ public class Fueoni implements GameModeManager {
     public void startGame() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle(ChatColor.BOLD + "" + ChatColor.BLUE + "増やし鬼スタート!!",
-                             ChatColor.YELLOW + ">>鬼が出るまでに安全な場所を見つけよう<<",
-                            10,70,20 );
+                    ChatColor.YELLOW + ">>鬼が出るまでに安全な場所を見つけよう<<",
+                    10, 70, 20);
         }
     }
 
@@ -48,7 +45,7 @@ public class Fueoni implements GameModeManager {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle(ChatColor.BOLD + "" + ChatColor.RED + "鬼が動き始めた",
                     ChatColor.YELLOW + ">>増える鬼から逃げ切れ<<",
-                    10,70,20 );
+                    10, 70, 20);
         }
     }
 
@@ -70,11 +67,11 @@ public class Fueoni implements GameModeManager {
 
         // 全プレイヤーにタイトルを表示
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(ChatColor.BOLD + "" +titleColor + title, ChatColor.YELLOW + subtitle, 10, 100, 20);
+            player.sendTitle(ChatColor.BOLD + "" + titleColor + title, ChatColor.YELLOW + subtitle, 10, 100, 20);
         }
 
         gameManager.playSoundToAllPlayer(Sound.BLOCK_END_PORTAL_SPAWN);//エンドポータルの効果音
-         //鬼チームのリセットのため鬼を逃げチームへ移動
+        //鬼チームのリセットのため鬼を逃げチームへ移動
         for (String player : teamManager.getOni().getEntries()) {
             teamManager.addPlayerToTeam(teamManager.getNige(), player);
         }
@@ -99,13 +96,13 @@ public class Fueoni implements GameModeManager {
         //鬼になったプレイヤーをスタート地点へテレポート
         spManager.teleportPlayer(damagedPlayer);
         //捕まった人は個別メッセージ
-        damagedPlayer.sendTitle(ChatColor.YELLOW +  "あなたは" +
-                                     ChatColor.RED +"[鬼]" + ChatColor.YELLOW +"になった",
-                                "", 10, 40, 10);
+        damagedPlayer.sendTitle(ChatColor.YELLOW + "あなたは" +
+                        ChatColor.RED + "[鬼]" + ChatColor.YELLOW + "になった",
+                "", 10, 40, 10);
         //全体メッセージ
         Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " +
-                                ChatColor.YELLOW + damagedPlayer.getName() + " は、" +
-                                attacker.getName() + "によって鬼にされた");
+                ChatColor.YELLOW + damagedPlayer.getName() + " は、" +
+                attacker.getName() + "によって鬼にされた");
 
     }
 

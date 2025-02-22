@@ -1,7 +1,6 @@
 package com.github.onigokko.commands;
 
 import com.github.onigokko.games.GameManager;
-import com.github.onigokko.games.OniManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,12 +20,10 @@ public class setTeamToPlayer implements CommandExecutor {
 
     private final GameManager gameManager;
     private final TeamManager teamManager;
-    private final OniManager oniManager;
 
-    public setTeamToPlayer(GameManager gameManager, TeamManager teamManager, OniManager oniManager) {
+    public setTeamToPlayer(GameManager gameManager, TeamManager teamManager) {
         this.gameManager = gameManager;
         this.teamManager = teamManager;
-        this.oniManager = oniManager;
     }
 
     @Override
@@ -97,7 +94,7 @@ public class setTeamToPlayer implements CommandExecutor {
 
             // アナウンス（全体通知）
             Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " +
-                                    ChatColor.DARK_RED + "「今回の鬼はこの人たちです!!」");
+                    ChatColor.DARK_RED + "「今回の鬼はこの人たちです!!」");
 
             int added = 0;
             for (Player player : candidates) {

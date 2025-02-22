@@ -1,8 +1,8 @@
 package com.github.onigokko;
 
 import com.github.onigokko.Event.BreakBlock;
-import com.github.onigokko.Event.PlayerDamage;
 import com.github.onigokko.Event.PlayerConnection;
+import com.github.onigokko.Event.PlayerDamage;
 import com.github.onigokko.commands.*;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.OniManager;
@@ -36,24 +36,24 @@ public final class Onigokko extends JavaPlugin {
         //コンストラクタ生成(クラス)
         this.sbManager = new ScoreboardManager();
         this.oniManager = new OniManager();
-        this.teamManager = new TeamManager(sbManager,oniManager);
+        this.teamManager = new TeamManager(sbManager, oniManager);
         this.spManager = new StartPointManager();
-        this.gameManager = new GameManager(teamManager,sbManager,spManager,oniManager);
-        this.timer = new Timer(this,gameManager,spManager,oniManager,teamManager);
+        this.gameManager = new GameManager(teamManager, sbManager, spManager);
+        this.timer = new Timer(this, gameManager, spManager, oniManager, teamManager);
 
 
         //イベント登録
-        plManager.registerEvents(new PlayerConnection(sbManager,teamManager,timer), this);
-        plManager.registerEvents(new PlayerDamage(teamManager,gameManager), this);
-        plManager.registerEvents(new BreakBlock(),this);
+        plManager.registerEvents(new PlayerConnection(sbManager, teamManager, timer), this);
+        plManager.registerEvents(new PlayerDamage(teamManager, gameManager), this);
+        plManager.registerEvents(new BreakBlock(), this);
 
 
         //コマンド登録
         getCommand("setgametime").setExecutor(new setGameTime(timer));
         getCommand("setgamemode").setExecutor(new setGameMode(gameManager));
-        getCommand("startgame").setExecutor(new startGame(gameManager,timer,spManager,teamManager));
-        getCommand("stopgame").setExecutor(new stopGame(gameManager,timer));
-        getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager,teamManager,oniManager));
+        getCommand("startgame").setExecutor(new startGame(gameManager, timer, spManager, teamManager));
+        getCommand("stopgame").setExecutor(new stopGame(gameManager, timer));
+        getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager, teamManager));
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
 
         //起動通知

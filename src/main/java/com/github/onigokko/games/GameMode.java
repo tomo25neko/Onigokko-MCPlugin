@@ -7,6 +7,7 @@ public enum GameMode {
     // 定数（他のゲームモードが追加される場合を考慮）
     FUEONI("増やし鬼");
 
+
     private final String displayName;
 
     GameMode(String displayName) {

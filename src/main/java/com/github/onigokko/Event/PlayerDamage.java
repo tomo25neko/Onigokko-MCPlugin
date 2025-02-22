@@ -3,14 +3,13 @@ package com.github.onigokko.Event;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.GameModeManager;
 import com.github.onigokko.score.TeamManager;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PlayerDamage implements Listener{
+public class PlayerDamage implements Listener {
 
     private final TeamManager teamManager;
     private final GameManager gM;
@@ -23,7 +22,7 @@ public class PlayerDamage implements Listener{
     @EventHandler
     public void onPlayerDamageFromEntity(EntityDamageByEntityEvent event) {
         // ダメージを受けたのがプレイヤーか確認
-        if(!(event.getEntity() instanceof Player damagedPlayer)) {
+        if (!(event.getEntity() instanceof Player damagedPlayer)) {
             return;
         }
         // 攻撃したのがプレイヤーか確認

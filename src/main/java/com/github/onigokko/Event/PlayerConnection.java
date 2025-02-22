@@ -18,7 +18,7 @@ public class PlayerConnection implements Listener {
 
     public PlayerConnection(ScoreboardManager scoreboardManager, TeamManager teamManager, Timer timer) {
         this.sbManager = scoreboardManager;
-        this.teamManager  = teamManager;
+        this.teamManager = teamManager;
         this.timer = timer;
     }
 

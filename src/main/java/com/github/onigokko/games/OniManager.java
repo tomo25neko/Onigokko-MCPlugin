@@ -28,6 +28,7 @@ public class OniManager {
         }
         player.getInventory().setChestplate(chestplate);
     }
+
     /**
      * ゲーム終了時などに、鬼専用の装備を解除する。
      */

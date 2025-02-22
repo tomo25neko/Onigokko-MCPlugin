@@ -58,8 +58,8 @@ public class TeamManager {
     }
 
     //チームの名前を変更
-    public void setTeamName(Team team,String teamName) {
-        if(team == nige) {
+    public void setTeamName(Team team, String teamName) {
+        if (team == nige) {
             team.setDisplayName(ChatColor.DARK_AQUA + "[" + teamName + "]" + ChatColor.GREEN + "チーム： %d人");//逃げ
         } else {
             team.setDisplayName(ChatColor.RED + "[" + teamName + "]" + ChatColor.GREEN + "チーム：    %d人");//鬼
@@ -73,7 +73,7 @@ public class TeamManager {
         team.addEntry(playerName);
         setTeamSizeToScoreboard(team);
         //鬼チームに追加の場合装備をセット
-        if(team.getName().equals(oni.getName())) {
+        if (team.getName().equals(oni.getName())) {
             Player player = Bukkit.getPlayer(playerName);
             oniManager.applyOniEquipment(player);
         }

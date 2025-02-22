@@ -25,7 +25,7 @@ public class setGameTime implements CommandExecutor {
 
         if (args.length != 1) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "ゲーム時間を指定してください。使用例: /setgametime [time]");
+                    ChatColor.RED + "ゲーム時間を指定してください。使用例: /setgametime [time]");
             return false;
         }
 
@@ -34,12 +34,12 @@ public class setGameTime implements CommandExecutor {
             time = Integer.parseInt(args[0]);
             if (time <= 0) {
                 sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                                   ChatColor.RED + "ゲーム時間は正の整数で指定してください。");
+                        ChatColor.RED + "ゲーム時間は正の整数で指定してください。");
                 return false;
             }
         } catch (NumberFormatException e) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                               ChatColor.RED + "ゲーム時間は整数で指定してください。");
+                    ChatColor.RED + "ゲーム時間は整数で指定してください。");
             return false;
         }
 
@@ -48,7 +48,7 @@ public class setGameTime implements CommandExecutor {
 
         // 設定された時間をユーザーに通知
         Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " +
-                                ChatColor.GREEN + "ゲーム時間を " + time + " 秒に設定しました。");
+                ChatColor.GREEN + "ゲーム時間を " + time + " 秒に設定しました。");
         return true;
     }
 }

@@ -3,16 +3,19 @@ package com.github.onigokko.score;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class ScoreboardManager {
 
     private final Scoreboard scoreboard;
     private final Objective objective;
 
-    public ScoreboardManager(){
+    public ScoreboardManager() {
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        this.objective = scoreboard.registerNewObjective("gameinfo", Criteria.DUMMY,"サーバー情報");
+        this.objective = scoreboard.registerNewObjective("gameinfo", Criteria.DUMMY, "サーバー情報");
 
         setDefaultScoreboard();
     }
@@ -25,7 +28,7 @@ public class ScoreboardManager {
     //初期スコアボードの作成
     private void setDefaultScoreboard() {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(ChatColor.AQUA +"サーバー情報");
+        objective.setDisplayName(ChatColor.AQUA + "サーバー情報");
     }
 
     //スコアボードの一番上に出る名称をgameModeに変更
@@ -34,7 +37,7 @@ public class ScoreboardManager {
     }
 
     //スコアボードに登録　keyでセットしてvalueが値 色は引数に事前につけておく
-    public void setScore(String key, int amount,int value) {
+    public void setScore(String key, int amount, int value) {
         // %d を含む場合は置換して完全な文字列を生成
         String newEntry = key.contains("%d") ? String.format(key, amount) : key;
 
@@ -44,6 +47,7 @@ public class ScoreboardManager {
         objective.getScore(newEntry).setScore(value); // スコアの設定と順番の設定
 
     }
+
     // スコアの削除処理（ChatColorを除去して比較）
     public void removeScore(String key) {
         // 渡されたキーから色コードを除去して、最初の空白までの部分を固定部分とする
@@ -76,7 +80,9 @@ public class ScoreboardManager {
         }
 
         Scoreboard emptyBoard = Bukkit.getScoreboardManager().getNewScoreboard();
-        for (Player player : Bukkit.getOnlinePlayers()) { player.setScoreboard(emptyBoard); }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.setScoreboard(emptyBoard);
+        }
     }
 
 }

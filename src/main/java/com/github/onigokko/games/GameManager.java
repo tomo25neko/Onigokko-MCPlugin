@@ -4,7 +4,6 @@ import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 
 public class GameManager {
 
@@ -14,15 +13,13 @@ public class GameManager {
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
-    private final OniManager oniManager;
 
     private boolean gameStart = false;
 
-    public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, OniManager oniManager) {
+    public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;
-        this.oniManager = oniManager;
     }
 
     public void setGameMode(GameMode mode) {
@@ -37,6 +34,7 @@ public class GameManager {
     public void setGameStart(boolean gameStart) {
         this.gameStart = gameStart;
     }
+
     //現在のゲームの状況を返す return true||false1
     public boolean isGameStart() {
         return gameStart;
@@ -48,14 +46,14 @@ public class GameManager {
      */
     public void playSoundToAllPlayer(Sound sound) {
         Bukkit.getOnlinePlayers().forEach(player ->
-                player.playSound(player,sound,1.0f,1.0f));
+                player.playSound(player, sound, 1.0f, 1.0f));
     }
 
     private void setupGame(GameMode mode) {
         // ゲームモードに応じたクラスを生成
         switch (mode) {
             case FUEONI:
-                this.gameModeManager = new Fueoni(teamManager,sbManager,spManager,this,oniManager);
+                this.gameModeManager = new Fueoni(teamManager, sbManager, spManager, this);
                 break;
             default:
                 this.gameModeManager = null;
