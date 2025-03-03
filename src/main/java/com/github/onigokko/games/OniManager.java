@@ -34,7 +34,7 @@ public class OniManager {
      */
     public void removeOniEquipment(Player player) {
         // ここではシンプルにチェストプレートを外す処理
-        player.getInventory().setChestplate(null);
+        player.getInventory().clear();
     }
 
     /**

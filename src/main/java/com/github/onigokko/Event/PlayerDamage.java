@@ -3,6 +3,7 @@ package com.github.onigokko.Event;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.GameModeManager;
 import com.github.onigokko.score.TeamManager;
+import com.github.onigokko.score.Timer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,10 +14,12 @@ public class PlayerDamage implements Listener {
 
     private final TeamManager teamManager;
     private final GameManager gM;
+    private final Timer timer;
 
-    public PlayerDamage(TeamManager teamManager, GameManager gameManager) {
+    public PlayerDamage(TeamManager teamManager, GameManager gameManager, Timer timer) {
         this.teamManager = teamManager;
         this.gM = gameManager;
+        this.timer = timer;
     }
 
     @EventHandler
@@ -46,6 +49,7 @@ public class PlayerDamage implements Listener {
 
             //ゲームモード固有の処理を呼び出す
             gameModeManager.caughtPlayer(attacker, damagedPlayer);
+            timer.stopTimer();
         }
 
     }

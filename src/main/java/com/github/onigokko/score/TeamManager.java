@@ -86,6 +86,8 @@ public class TeamManager {
         for (Team team : scoreboard.getTeams()) {
             //プレイヤーをチームから削除できたら、スコア更新
             if (team.removeEntry(player)) setTeamSizeToScoreboard(team);
+            Player player1 = Bukkit.getPlayerExact(player);
+            oniManager.removeOniEquipment(player1);
         }
     }
 

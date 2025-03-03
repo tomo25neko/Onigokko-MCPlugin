@@ -36,9 +36,9 @@ public class PlayerConnection implements Listener {
 
     @EventHandler //プレイヤーが抜ける時
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
-        sbManager.setScore(ChatColor.GREEN + "総プレイヤー： %d人", Bukkit.getOnlinePlayers().size(), 5);
-
         //プレイヤーをチームから削除
         teamManager.removePlayerAllTeam(event.getPlayer().getName());
+
+        sbManager.setScore(ChatColor.GREEN + "総プレイヤー： %d人", Bukkit.getOnlinePlayers().size(), 5);
     }
 }

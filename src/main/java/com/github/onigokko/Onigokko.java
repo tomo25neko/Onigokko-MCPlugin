@@ -44,7 +44,7 @@ public final class Onigokko extends JavaPlugin {
 
         //イベント登録
         plManager.registerEvents(new PlayerConnection(sbManager, teamManager, timer), this);
-        plManager.registerEvents(new PlayerDamage(teamManager, gameManager), this);
+        plManager.registerEvents(new PlayerDamage(teamManager, gameManager,timer), this);
         plManager.registerEvents(new BreakBlock(), this);
 
 
@@ -57,7 +57,8 @@ public final class Onigokko extends JavaPlugin {
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
 
         //起動通知
-        Bukkit.getLogger().info("鬼ごっこプラグインが起動しました / Onigokko Plugin has started.");
+        Bukkit.getLogger().info("[Onigokko-info]  鬼ごっこプラグインが起動しました /\n" +
+                " Onigokko Plugin has started.");
     }
 
     @Override
@@ -73,7 +74,8 @@ public final class Onigokko extends JavaPlugin {
         timer.removeBossbar();
 
         //停止通知
-        Bukkit.getLogger().info("鬼ごっこプラグインが停止しました / Onigokko Plugin has finished.");
+        Bukkit.getLogger().info("[Onigokko-info]  鬼ごっこプラグインが停止しました /\n" +
+                " Onigokko Plugin has finished.");
     }
 
 }
