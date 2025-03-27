@@ -7,15 +7,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-
-public class Fueoni implements GameModeManager {
+public class Onigo implements GameModeManager{
 
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
     private final GameManager gameManager;
 
-    Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
+    Onigo(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;
@@ -28,13 +27,13 @@ public class Fueoni implements GameModeManager {
         teamManager.setTeamName(teamManager.getOni(), "鬼");
         teamManager.setTeamName(teamManager.getNige(), "逃げ");
         //スコアボードの表記を変更
-        sbManager.setGameNameToDisplay("増やし鬼");
+        sbManager.setGameNameToDisplay("鬼ごっこ");
     }
 
     @Override
     public void startGame() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(ChatColor.BOLD + "" + ChatColor.BLUE + "増やし鬼スタート!!",
+            player.sendTitle(ChatColor.BOLD + "" + ChatColor.BLUE + "鬼こっこスタート!!",
                     ChatColor.YELLOW + ">>鬼が出るまでに安全な場所を見つけよう<<",
                     10, 70, 20);
         }
@@ -44,31 +43,22 @@ public class Fueoni implements GameModeManager {
     public void releaseHunter() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle(ChatColor.BOLD + "" + ChatColor.RED + "鬼が動き始めた",
-                    ChatColor.YELLOW + ">>増える鬼から逃げ切れ<<",
+                    ChatColor.YELLOW + ">>最後まで逃げ切るのは誰だ<<",
                     10, 70, 20);
         }
     }
 
     @Override
     public void endGame() {
-        String title;
-        String subtitle;
-        ChatColor titleColor;
-
-        if (teamManager.getNige().getSize() <= 0) {
-            title = "鬼チームの勝利！";
-            subtitle = "===生存者がいなくなりました！===";
-            titleColor = ChatColor.RED;
-        } else {
-            title = "逃げチームの勝利！";
-            subtitle = "===鬼から逃げ切りました！===";
-            titleColor = ChatColor.GREEN;
-        }
-
         // 全プレイヤーにタイトルを表示
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(ChatColor.BOLD + "" + titleColor + title, ChatColor.YELLOW + subtitle, 10, 100, 20);
+            player.sendTitle(ChatColor.BOLD + "" + ChatColor.GREEN + "鬼ごっこ終了！", ChatColor.YELLOW + "誰が逃げ切ったかな", 10, 100, 20);
         }
+        StringBuilder message = new StringBuilder(ChatColor.GREEN + "====逃げ切った人====\n");
+        teamManager.getNige().getEntries().forEach(entry ->
+                message.append(ChatColor.WHITE+"・　" + ChatColor.AQUA + entry + "\n")); //ラムダ記法
+
+        Bukkit.broadcastMessage(message.toString());//終了時に鬼でないプレイヤーの名前をチャットに乗せる
 
         gameManager.playSoundToAllPlayer(Sound.BLOCK_END_PORTAL_SPAWN);//エンドポータルの効果音
         //鬼チームのリセットのため鬼を逃げチームへ移動
@@ -87,23 +77,21 @@ public class Fueoni implements GameModeManager {
     public void caughtPlayer(Player attacker, Player damagedPlayer) {
         // 逃げプレイヤーを鬼に変更
         teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
-        //もし逃げチームが全滅なら終了
-        if (teamManager.getNige().getSize() == 0) {
-            endGame();
-            return;
-        }
+        //　鬼を逃げプレイヤーに変更
+        teamManager.addPlayerToTeam(teamManager.getNige(), attacker.getName());
 
-        //鬼になったプレイヤーをスタート地点へテレポート
-        spManager.teleportPlayer(damagedPlayer);
         //捕まった人は個別メッセージ
         damagedPlayer.sendTitle(ChatColor.YELLOW + "あなたは" +
                         ChatColor.RED + "[鬼]" + ChatColor.YELLOW + "になった",
-                "", 10, 40, 10);
+                "時間までに他の人を捕まえよう！", 10, 40, 10);
+        damagedPlayer.getWorld().playSound(
+                damagedPlayer.getLocation(),
+                Sound.ENTITY_ZOMBIE_INFECT,
+                1.0f, 1.0f); //ゾンビ音再生
+
         //全体メッセージ
         Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " +
                 ChatColor.YELLOW + damagedPlayer.getName() + " は、" +
-                attacker.getName() + "によって鬼にされた");
-
+                attacker.getName() + "に捕まって鬼になった");
     }
-
 }

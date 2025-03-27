@@ -52,7 +52,7 @@ public final class Onigokko extends JavaPlugin {
         getCommand("setgametime").setExecutor(new setGameTime(timer));
         getCommand("setgamemode").setExecutor(new setGameMode(gameManager));
         getCommand("startgame").setExecutor(new startGame(gameManager, timer, spManager, teamManager));
-        getCommand("stopgame").setExecutor(new stopGame(gameManager, timer));
+        getCommand("stopgame").setExecutor(new stopGame(timer));
         getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager, teamManager));
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
 

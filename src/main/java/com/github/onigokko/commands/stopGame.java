@@ -11,18 +11,16 @@ import org.bukkit.entity.Player;
 
 public class stopGame implements CommandExecutor {
 
-    private final GameManager gameManager;
     private final Timer timer;
 
-    public stopGame(GameManager gameManager, Timer timer) {
-        this.gameManager = gameManager;
+    public stopGame(Timer timer) {
         this.timer = timer;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if (!(gameManager.isGameStart())) {
+        if (!(GameManager.isGameStart())) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
                     ChatColor.RED + "現在ゲーム中ではありません!!");
             return true;
@@ -41,7 +39,7 @@ public class stopGame implements CommandExecutor {
         }
 
         timer.stopTimer();
-        gameManager.setGameStart(false);//ゲーム中ではない用に変更
+        GameManager.setGameStart(false);//ゲーム中ではない用に変更
 
         Bukkit.broadcastMessage(ChatColor.AQUA + "[System]: " +
                 ChatColor.RED + "管理者によってゲームが中断されました！");

@@ -5,7 +5,8 @@ import java.util.List;
 
 public enum GameMode {
     // 定数（他のゲームモードが追加される場合を考慮）
-    FUEONI("増やし鬼");
+    FUEONI("増やし鬼"),
+    ONIGO("鬼ごっこ");
 
 
     private final String displayName;

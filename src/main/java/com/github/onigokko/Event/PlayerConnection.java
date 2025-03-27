@@ -27,6 +27,18 @@ public class PlayerConnection implements Listener {
         sbManager.setScore(ChatColor.GREEN + "総プレイヤー： %d人", Bukkit.getOnlinePlayers().size(), 5);
         sbManager.showScorebordToPlayer(event.getPlayer());
 
+        if(event.getPlayer().isOp()) {
+            event.getPlayer().sendMessage("/setgamemodeでゲームを設定できます\n" +
+                    "/setgametimeでゲームの時間が設定できます\n" +
+                    "/setstartでゲームのスタート地点を決めれます\n" +
+                    "/setteamでチームを設定できます。ランダムにしたいときはマグマブロックの上３マス以内にいるプレイヤーから抽選できます\n" +
+                    "/startgameでゲームをスタートします。この時足りない操作があれば案内が出ます\n" +
+                    "/stopgameで強制中断が可能です。チームもリセットされます\n" +
+                    "※各コマンドを一度実行すると細かな使用方法が出ます\n" +
+                    "※このメッセージはOPの方全員に参加時に送っています\n" +
+                    "==改善案があればgithubもしくは[とも猫]のいるdiscordにて教えて貰えれば対応します==");
+        }
+
         //プレイヤーにボスバーを表示
         timer.showBossbar(event.getPlayer());
 

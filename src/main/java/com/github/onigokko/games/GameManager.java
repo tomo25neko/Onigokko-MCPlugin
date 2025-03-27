@@ -14,7 +14,7 @@ public class GameManager {
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
 
-    private boolean gameStart = false;
+    private static boolean gameStart = false;
 
     public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
         this.teamManager = teamManager;
@@ -31,12 +31,12 @@ public class GameManager {
     }
 
     //ゲームが進行中かをセット true||false
-    public void setGameStart(boolean gameStart) {
-        this.gameStart = gameStart;
+    public static void setGameStart(boolean gamestart) {
+        gameStart = gamestart;
     }
 
     //現在のゲームの状況を返す return true||false1
-    public boolean isGameStart() {
+    public static boolean isGameStart() {
         return gameStart;
     }
 
@@ -55,6 +55,8 @@ public class GameManager {
             case FUEONI:
                 this.gameModeManager = new Fueoni(teamManager, sbManager, spManager, this);
                 break;
+            case ONIGO:
+                this.gameModeManager = new Onigo(teamManager, sbManager, spManager, this);
             default:
                 this.gameModeManager = null;
                 break;
