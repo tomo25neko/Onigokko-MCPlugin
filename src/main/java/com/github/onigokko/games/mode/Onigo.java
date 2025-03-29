@@ -68,7 +68,7 @@ public class Onigo implements GameModeManager {
         }
         StringBuilder message = new StringBuilder(ChatColor.GREEN + "====逃げ切った人====\n");
         teamManager.getNige().getEntries().forEach(entry ->
-                message.append(ChatColor.WHITE+"・　" + ChatColor.AQUA + entry + "\n")); //ラムダ記法
+                message.append(ChatColor.WHITE + "・　" + ChatColor.AQUA).append(entry).append("\n")); //ラムダ記法
 
         Bukkit.broadcastMessage(message.toString());//終了時に鬼でないプレイヤーの名前をチャットに乗せる
 
