@@ -51,7 +51,7 @@ public class setGameMode implements CommandExecutor {
             return true;
         }
 
-        if (gameManager.isGameStart()) {
+        if (GameManager.isGameStart()) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
                     ChatColor.RED + "ゲームは現在進行中です！！");
             return true;

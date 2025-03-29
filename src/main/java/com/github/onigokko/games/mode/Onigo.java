@@ -1,5 +1,6 @@
 package com.github.onigokko.games.mode;
 
+import com.github.onigokko.Onigokko;
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.GameModeManager;
 import com.github.onigokko.games.StartPointManager;
@@ -9,6 +10,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Onigo implements GameModeManager {
 
@@ -16,6 +22,9 @@ public class Onigo implements GameModeManager {
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
     private final GameManager gameManager;
+
+    //鬼ごっこ限定機能
+    private final Set<String> noTouchBack = new HashSet<>(); // タッチ返し禁止リスト
 
     public Onigo(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
         this.teamManager = teamManager;
@@ -78,10 +87,26 @@ public class Onigo implements GameModeManager {
 
     @Override
     public void caughtPlayer(Player attacker, Player damagedPlayer) {
+        //プレイヤーが交代して5秒経過していなければタッチ無効(タッチ返し防止)
+        if (noTouchBack.contains(damagedPlayer.getName())) {
+            attacker.sendMessage(ChatColor.RED + "このプレイヤーは今タッチできないよ!");
+            return;
+        }
+
+        // タッチ返し禁止リストに追加
+        noTouchBack.add(attacker.getName());
+        // 5秒後にタッチ返し禁止解除
+        Bukkit.getScheduler().runTaskLater(Onigokko.getInstance(), () -> {
+            noTouchBack.remove(attacker.getName());
+        }, 100L); // 100 ticks (5秒)
+
         // 逃げプレイヤーを鬼に変更
         teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());
         //　鬼を逃げプレイヤーに変更
         teamManager.addPlayerToTeam(teamManager.getNige(), attacker.getName());
+
+        // 逃げになったプレイヤーにスピード2を5秒付与
+        attacker.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1, false, true, true));
 
         //捕まった人は個別メッセージ
         damagedPlayer.sendTitle(ChatColor.YELLOW + "あなたは" +

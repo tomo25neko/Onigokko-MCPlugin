@@ -1,6 +1,7 @@
 package com.github.onigokko.Event;
 
 
+import com.github.onigokko.Onigokko;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import com.github.onigokko.score.Timer;
@@ -54,6 +55,10 @@ public class PlayerConnection implements Listener {
         //プレイヤーをチームから削除
         teamManager.removePlayerAllTeam(event.getPlayer().getName());
 
-        sbManager.setScore(ChatColor.GREEN + "総プレイヤー： %d人", Bukkit.getOnlinePlayers().size(), 5);
+
+        // 1 tick 遅延して正しい人数を取得
+        Bukkit.getScheduler().runTaskLater(Onigokko.getInstance(), () -> {
+            sbManager.setScore(ChatColor.GREEN + "総プレイヤー： %d人", Bukkit.getOnlinePlayers().size(), 5);
+        }, 1L);
     }
 }

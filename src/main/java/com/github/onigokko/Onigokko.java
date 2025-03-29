@@ -11,6 +11,7 @@ import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import com.github.onigokko.score.Timer;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,9 +27,13 @@ public final class Onigokko extends JavaPlugin {
     private Timer timer;
     private OniManager oniManager;
 
+    private static Onigokko instance;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        instance = this;
 
         //BukkitAPI
         this.plManager = getServer().getPluginManager();
@@ -43,8 +48,8 @@ public final class Onigokko extends JavaPlugin {
 
 
         //イベント登録
-        plManager.registerEvents(new PlayerConnection(sbManager, teamManager, timer), this);
-        plManager.registerEvents(new PlayerDamage(teamManager, gameManager,timer), this);
+        plManager.registerEvents(new PlayerConnection(sbManager, teamManager, timer),this);
+        plManager.registerEvents(new PlayerDamage(teamManager, gameManager), this);
         plManager.registerEvents(new BreakBlock(), this);
 
 
@@ -57,8 +62,10 @@ public final class Onigokko extends JavaPlugin {
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
 
         //起動通知
-        Bukkit.getLogger().info("[Onigokko-info]  鬼ごっこプラグインが起動しました /\n" +
-                " Onigokko Plugin has started.");
+        Bukkit.getLogger().info("============================================");
+        Bukkit.getLogger().info("[Onigokko-info]  鬼ごっこプラグインが起動しました。");
+        Bukkit.getLogger().info("[Onigokko-info] Onigokko Plugin has started.");
+        Bukkit.getLogger().info("============================================");
     }
 
     @Override
@@ -78,4 +85,7 @@ public final class Onigokko extends JavaPlugin {
                 " Onigokko Plugin has finished.");
     }
 
+    public static Plugin getInstance() {
+        return instance;
+    }
 }
