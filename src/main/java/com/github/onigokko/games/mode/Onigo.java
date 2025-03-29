@@ -1,5 +1,8 @@
-package com.github.onigokko.games;
+package com.github.onigokko.games.mode;
 
+import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.GameModeManager;
+import com.github.onigokko.games.StartPointManager;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
@@ -7,14 +10,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public class Onigo implements GameModeManager{
+public class Onigo implements GameModeManager {
 
     private final TeamManager teamManager;
     private final ScoreboardManager sbManager;
     private final StartPointManager spManager;
     private final GameManager gameManager;
 
-    Onigo(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
+    public Onigo(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;

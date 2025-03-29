@@ -1,5 +1,8 @@
-package com.github.onigokko.games;
+package com.github.onigokko.games.mode;
 
+import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.GameModeManager;
+import com.github.onigokko.games.StartPointManager;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
@@ -15,7 +18,7 @@ public class Fueoni implements GameModeManager {
     private final StartPointManager spManager;
     private final GameManager gameManager;
 
-    Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
+    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
         this.teamManager = teamManager;
         this.sbManager = sbManager;
         this.spManager = spManager;

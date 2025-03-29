@@ -28,7 +28,9 @@ public class PlayerConnection implements Listener {
         sbManager.showScorebordToPlayer(event.getPlayer());
 
         if(event.getPlayer().isOp()) {
-            event.getPlayer().sendMessage("/setgamemodeでゲームを設定できます\n" +
+            event.getPlayer().sendMessage(
+                    "[System] Onikokkoプラグインからのお知らせ\n" +
+                    "/setgamemodeでゲームを設定できます\n" +
                     "/setgametimeでゲームの時間が設定できます\n" +
                     "/setstartでゲームのスタート地点を決めれます\n" +
                     "/setteamでチームを設定できます。ランダムにしたいときはマグマブロックの上３マス以内にいるプレイヤーから抽選できます\n" +
@@ -36,7 +38,8 @@ public class PlayerConnection implements Listener {
                     "/stopgameで強制中断が可能です。チームもリセットされます\n" +
                     "※各コマンドを一度実行すると細かな使用方法が出ます\n" +
                     "※このメッセージはOPの方全員に参加時に送っています\n" +
-                    "==改善案があればgithubもしくは[とも猫]のいるdiscordにて教えて貰えれば対応します==");
+                    "=改善案があればgithubもしくは[とも猫]のいるdiscordにて教えて貰えれば対応します="
+            );
         }
 
         //プレイヤーにボスバーを表示

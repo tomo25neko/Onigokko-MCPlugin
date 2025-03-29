@@ -1,5 +1,7 @@
 package com.github.onigokko.games;
 
+import com.github.onigokko.games.mode.Fueoni;
+import com.github.onigokko.games.mode.Onigo;
 import com.github.onigokko.score.ScoreboardManager;
 import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
@@ -57,6 +59,7 @@ public class GameManager {
                 break;
             case ONIGO:
                 this.gameModeManager = new Onigo(teamManager, sbManager, spManager, this);
+                break;
             default:
                 this.gameModeManager = null;
                 break;

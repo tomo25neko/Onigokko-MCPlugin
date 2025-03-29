@@ -64,7 +64,7 @@ public class setGameMode implements CommandExecutor {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle(ChatColor.GREEN + "ゲームモード" +
                             ChatColor.DARK_AQUA + "[" + mode.getDisplayName() + "]",
-                    ChatColor.YELLOW + "増える鬼から逃げよう！",
+                    ChatColor.YELLOW + "逃げ切ろう！",
                     10, 70, 20);
         }
 
