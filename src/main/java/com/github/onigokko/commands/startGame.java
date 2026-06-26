@@ -12,24 +12,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class startGame implements CommandExecutor {
-
-    private final GameManager gameManager;
-    private final Timer timer;
-    private final StartPointManager spManager;
-    private final TeamManager teamManager;
-
-    public startGame(GameManager gameManager, Timer timer, StartPointManager spManager, TeamManager teamManager) {
-        this.gameManager = gameManager;
-        this.timer = timer;
-        this.spManager = spManager;
-        this.teamManager = teamManager;
-    }
+public record startGame(GameManager gameManager, Timer timer, StartPointManager spManager,
+                        TeamManager teamManager) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if (gameManager.isGameStart()) {
+        if (GameManager.isGameStart()) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
                     ChatColor.RED + "すでにゲーム中です!!");
             return true;
@@ -59,9 +48,12 @@ public class startGame implements CommandExecutor {
             return true;
         }
 
-        World world = ((Player) sender).getWorld();
+        World world = null;
+        if (sender instanceof Player) {
+            world = ((Player) sender).getWorld();
+        }
         //スタート地点が設定されているか確認
-        if (spManager.getStartPoint(world) == null) {
+        if (world != null && spManager.getStartPoint(world) == null) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
                     ChatColor.RED + "スタート地点が設定されていません");
             return true;

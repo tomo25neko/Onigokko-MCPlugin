@@ -7,13 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class setStartPoint implements CommandExecutor {
-
-    private final StartPointManager spManager;
-
-    public setStartPoint(StartPointManager spManager) {
-        this.spManager = spManager;
-    }
+public record setStartPoint(StartPointManager spManager) implements CommandExecutor {
 
 
     @Override

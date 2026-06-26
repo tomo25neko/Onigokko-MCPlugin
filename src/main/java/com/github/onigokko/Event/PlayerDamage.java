@@ -9,17 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PlayerDamage implements Listener {
-
-    private final TeamManager teamManager;
-    private final GameManager gM;
-
-
-    public PlayerDamage(TeamManager teamManager, GameManager gameManager) {
-        this.teamManager = teamManager;
-        this.gM = gameManager;
-
-    }
+public record PlayerDamage(TeamManager teamManager, GameManager gM) implements Listener {
 
     @EventHandler
     public void onPlayerDamageFromEntity(EntityDamageByEntityEvent event) {

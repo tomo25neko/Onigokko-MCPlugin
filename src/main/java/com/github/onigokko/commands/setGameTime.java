@@ -7,13 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class setGameTime implements CommandExecutor {
-
-    private final Timer timer;
-
-    public setGameTime(Timer timer) {
-        this.timer = timer;
-    }
+public record setGameTime(Timer timer) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {

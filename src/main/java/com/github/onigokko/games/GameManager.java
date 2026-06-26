@@ -1,9 +1,5 @@
 package com.github.onigokko.games;
 
-import com.github.onigokko.games.mode.Fueoni;
-import com.github.onigokko.games.mode.Onigo;
-import com.github.onigokko.score.ScoreboardManager;
-import com.github.onigokko.score.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 
@@ -12,16 +8,12 @@ public class GameManager {
     //ゲームモードの保存
     private GameModeManager gameModeManager;
 
-    private final TeamManager teamManager;
-    private final ScoreboardManager sbManager;
-    private final StartPointManager spManager;
+    private final GameModeFactory gameModeFactory;
 
     private static boolean gameStart = false;
 
-    public GameManager(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager) {
-        this.teamManager = teamManager;
-        this.sbManager = sbManager;
-        this.spManager = spManager;
+    public GameManager(GameModeFactory gameModeFactory) {
+        this.gameModeFactory = gameModeFactory;
     }
 
     public void setGameMode(GameMode mode) {
@@ -52,20 +44,9 @@ public class GameManager {
     }
 
     private void setupGame(GameMode mode) {
-        // ゲームモードに応じたクラスを生成
-        switch (mode) {
-            case FUEONI:
-                this.gameModeManager = new Fueoni(teamManager, sbManager, spManager, this);
-                break;
-            case ONIGO:
-                this.gameModeManager = new Onigo(teamManager, sbManager, spManager, this);
-                break;
-            default:
-                this.gameModeManager = null;
-                break;
-        }
+        // Factory経由でゲームモードを生成
+        this.gameModeManager = gameModeFactory.createGameMode(mode, this);
 
-        //
         if (gameModeManager != null) {
             gameModeManager.setup();
         }

@@ -24,3 +24,9 @@ commands:
   setstart:
     description: スタート地点設定コマンド
     usage: /setstart
+  help:
+    description: ゲーム開始準備状況を確認するコマンド
+    usage: /help
+  returntostart:
+    description: スタート地点に戻るコマンド（鬼チームのみ）
+    usage: /returntostart

@@ -16,15 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class setTeamToPlayer implements CommandExecutor {
-
-    private final GameManager gameManager;
-    private final TeamManager teamManager;
-
-    public setTeamToPlayer(GameManager gameManager, TeamManager teamManager) {
-        this.gameManager = gameManager;
-        this.teamManager = teamManager;
-    }
+public record setTeamToPlayer(GameManager gameManager, TeamManager teamManager) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -5,6 +5,7 @@ import com.github.onigokko.Event.PlayerConnection;
 import com.github.onigokko.Event.PlayerDamage;
 import com.github.onigokko.commands.*;
 import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.GameModeFactory;
 import com.github.onigokko.games.OniManager;
 import com.github.onigokko.games.StartPointManager;
 import com.github.onigokko.score.ScoreboardManager;
@@ -16,16 +17,12 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Onigokko extends JavaPlugin {
-    //Bukkit　プラグインマネージャー(イベント登録)
-    private PluginManager plManager;
 
     //プラグインコンストラクタ
     private ScoreboardManager sbManager;
     private TeamManager teamManager;
     private StartPointManager spManager;
-    private GameManager gameManager;
     private Timer timer;
-    private OniManager oniManager;
 
     private static Onigokko instance;
 
@@ -36,14 +33,18 @@ public final class Onigokko extends JavaPlugin {
         instance = this;
 
         //BukkitAPI
-        this.plManager = getServer().getPluginManager();
+        //Bukkit　プラグインマネージャー(イベント登録)
+        PluginManager plManager = getServer().getPluginManager();
 
         //コンストラクタ生成(クラス)
         this.sbManager = new ScoreboardManager();
-        this.oniManager = new OniManager();
+        OniManager oniManager = new OniManager();
         this.teamManager = new TeamManager(sbManager, oniManager);
         this.spManager = new StartPointManager();
-        this.gameManager = new GameManager(teamManager, sbManager, spManager);
+        
+        // Factoryの生成
+        GameModeFactory gameModeFactory = new GameModeFactory(teamManager, sbManager, spManager);
+        GameManager gameManager = new GameManager(gameModeFactory);
         this.timer = new Timer(this, gameManager, spManager, oniManager, teamManager);
 
 
@@ -60,6 +61,8 @@ public final class Onigokko extends JavaPlugin {
         getCommand("stopgame").setExecutor(new stopGame(timer));
         getCommand("setteam").setExecutor(new setTeamToPlayer(gameManager, teamManager));
         getCommand("setstart").setExecutor(new setStartPoint(spManager));
+        getCommand("help").setExecutor(new help(gameManager, timer, spManager, teamManager));
+        getCommand("returntostart").setExecutor(new returnToStart(spManager, teamManager));
 
         //起動通知
         Bukkit.getLogger().info("============================================");

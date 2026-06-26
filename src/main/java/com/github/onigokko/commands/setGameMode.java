@@ -9,13 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class setGameMode implements CommandExecutor {
-
-    private final GameManager gameManager;
-
-    public setGameMode(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
+public record setGameMode(GameManager gameManager) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {

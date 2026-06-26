@@ -9,13 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class stopGame implements CommandExecutor {
-
-    private final Timer timer;
-
-    public stopGame(Timer timer) {
-        this.timer = timer;
-    }
+public record stopGame(Timer timer) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
