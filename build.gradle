@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.github.tomo25neko'
-version = '1.1.0'
+version = '1.2.0'
 
 repositories {
     mavenCentral()
@@ -15,10 +15,34 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        name = "codemc-releases"
+        url = "https://repo.codemc.io/repository/maven-releases/"
+    }
+    maven {
+        name = "codemc-snapshots"
+        url = "https://repo.codemc.io/repository/maven-snapshots/"
+    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT")
+    compileOnly("com.github.retrooper:packetevents-spigot:2.13.0")
+
+    // 依存関係の制約を追加
+    implementation(platform("io.netty:netty-bom:4.1.119.Final"))
+}
+
+// 構成の強制適用（より強固な方法）
+configurations.configureEach {
+    resolutionStrategy {
+        eachDependency {
+            if (requested.group == "io.netty") {
+                useVersion("4.1.119.Final")
+                because("CVE対応のためバージョンを固定")
+            }
+        }
+    }
 }
 
 def targetJavaVersion = 17

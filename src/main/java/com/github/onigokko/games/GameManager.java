@@ -5,15 +5,23 @@ import org.bukkit.Sound;
 
 public class GameManager {
 
+    private static boolean gameStart = false;
+    private final GameModeFactory gameModeFactory;
     //ゲームモードの保存
     private GameModeManager gameModeManager;
 
-    private final GameModeFactory gameModeFactory;
-
-    private static boolean gameStart = false;
-
     public GameManager(GameModeFactory gameModeFactory) {
         this.gameModeFactory = gameModeFactory;
+    }
+
+    //現在のゲームの状況を返す return true||false1
+    public static boolean isGameStart() {
+        return gameStart;
+    }
+
+    //ゲームが進行中かをセット true||false
+    public static void setGameStart(boolean set) {
+        gameStart = set;
     }
 
     public void setGameMode(GameMode mode) {
@@ -22,16 +30,6 @@ public class GameManager {
 
     public GameModeManager getGameModeManager() {
         return gameModeManager;
-    }
-
-    //ゲームが進行中かをセット true||false
-    public static void setGameStart(boolean gamestart) {
-        gameStart = gamestart;
-    }
-
-    //現在のゲームの状況を返す return true||false1
-    public static boolean isGameStart() {
-        return gameStart;
     }
 
     /*
@@ -47,8 +45,6 @@ public class GameManager {
         // Factory経由でゲームモードを生成
         this.gameModeManager = gameModeFactory.createGameMode(mode, this);
 
-        if (gameModeManager != null) {
-            gameModeManager.setup();
-        }
+        gameModeManager.setup();
     }
 }

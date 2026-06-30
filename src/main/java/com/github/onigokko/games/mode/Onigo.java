@@ -96,9 +96,8 @@ public class Onigo implements GameModeManager {
         // タッチ返し禁止リストに追加
         noTouchBack.add(attacker.getName());
         // 5秒後にタッチ返し禁止解除
-        Bukkit.getScheduler().runTaskLater(Onigokko.getInstance(), () -> {
-            noTouchBack.remove(attacker.getName());
-        }, 100L); // 100 ticks (5秒)
+        Bukkit.getScheduler().runTaskLater(Onigokko.getInstance(), () ->
+                noTouchBack.remove(attacker.getName()), 100L); // 100 ticks (5秒)
 
         // 逃げプレイヤーを鬼に変更
         teamManager.addPlayerToTeam(teamManager.getOni(), damagedPlayer.getName());

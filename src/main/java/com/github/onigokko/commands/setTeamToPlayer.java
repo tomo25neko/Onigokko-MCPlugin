@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public record setTeamToPlayer(GameManager gameManager, TeamManager teamManager) implements CommandExecutor {
+public record setTeamToPlayer(TeamManager teamManager) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -27,7 +27,7 @@ public record setTeamToPlayer(GameManager gameManager, TeamManager teamManager) 
         }
 
         // ゲーム中は変更不可
-        if (gameManager.isGameStart()) {
+        if (GameManager.isGameStart()) {
             sender.sendMessage(ChatColor.RED + "ゲーム中はチームの変更はできません！");
             return true;
         }

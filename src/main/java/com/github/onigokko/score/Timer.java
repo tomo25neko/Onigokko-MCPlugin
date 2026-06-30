@@ -21,13 +21,11 @@ public class Timer {
     private final StartPointManager spManager;
     private final OniManager oniManager;
     private final TeamManager teamManager;
-
+    private final BossBar timerBossBar;
     private BukkitRunnable mainTimerTask = null, escapeTimerTask = null;
     private int escapeTime;
     private int time = 0;
     private int timeCount;
-
-    private final BossBar timerBossBar;
 
     public Timer(Plugin plugin, GameManager gameManager, StartPointManager spManager, OniManager oniManager, TeamManager teamManager) {
         this.plugin = plugin;
@@ -41,14 +39,14 @@ public class Timer {
         timerBossBar = Bukkit.createBossBar(ChatColor.GREEN + "ゲーム時間：  未設定", BarColor.GREEN, BarStyle.SOLID);
     }
 
+    public int getTime() {
+        return time;
+    }
+
     //時間の設定
     public void setTime(int time) {
         this.time = time;
         timerBossBar.setTitle(ChatColor.GREEN + "ゲーム時間： " + time + "秒");
-    }
-
-    public int getTime() {
-        return time;
     }
 
     //プレイヤーにボスバーを設定
@@ -96,7 +94,7 @@ public class Timer {
                     stopTimer();//escapeTimerの初期化(null)
                     // 逃げる時間終了後にメインのゲームカウントダウンを開始
                     startMainTimer();
-                    gameManager.setGameStart(true);//ゲームを進行中にする
+                    GameManager.setGameStart(true);//ゲームを進行中にする
                 }
             }
         };
@@ -150,7 +148,7 @@ public class Timer {
             escapeTimerTask = null;
         }
 
-        gameManager.setGameStart(false);//ゲームが進行中ではなくする
+        GameManager.setGameStart(false);//ゲームが進行中ではなくする
     }
 
 }

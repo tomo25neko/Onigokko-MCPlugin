@@ -1,6 +1,7 @@
 package com.github.onigokko.commands;
 
 import com.github.onigokko.games.GameManager;
+import com.github.onigokko.games.HideballManager;
 import com.github.onigokko.games.StartPointManager;
 import com.github.onigokko.score.TeamManager;
 import com.github.onigokko.score.Timer;
@@ -13,21 +14,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public record startGame(GameManager gameManager, Timer timer, StartPointManager spManager,
-                        TeamManager teamManager) implements CommandExecutor {
+                        TeamManager teamManager, HideballManager hideballManager) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-
-        if (GameManager.isGameStart()) {
-            sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                    ChatColor.RED + "すでにゲーム中です!!");
-            return true;
-        }
-        if (timer.isStartEscapeCountdown()) {
-            sender.sendMessage(ChatColor.AQUA + "[System]: " +
-                    ChatColor.RED + "すでに逃げ中です!!");
-            return true;
-        }
 
         if (!(sender instanceof Player) && !(sender.isOp())) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
@@ -35,6 +25,17 @@ public record startGame(GameManager gameManager, Timer timer, StartPointManager 
             return true;
         }
 
+        if (GameManager.isGameStart()) {
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                    ChatColor.RED + "すでにゲーム中です!!");
+            return true;
+        }
+
+        if (timer.isStartEscapeCountdown()) {
+            sender.sendMessage(ChatColor.AQUA + "[System]: " +
+                    ChatColor.RED + "すでにカウントダウン中です!!");
+            return true;
+        }
 
         if (timer.getTime() == 0) {
             sender.sendMessage(ChatColor.AQUA + "[System]: " +
@@ -63,6 +64,17 @@ public record startGame(GameManager gameManager, Timer timer, StartPointManager 
 
         gameManager.getGameModeManager().startGame();//現在のゲームモードのスタート処理を呼び出す
         spManager.teleportTeam(teamManager.getNige());//逃げチームを先にテレポート
+
+        // 影玉を全プレイヤーに配布（持続時間が0の場合は配布しない）
+        if (hideballManager.getDuration() > 0) {
+            for (Player player : org.bukkit.Bukkit.getOnlinePlayers()) {
+                // 影玉時間を初期化
+                hideballManager.initializePlayerTime(player);
+                // 影玉アイテムを配布
+                player.getInventory().addItem(hideballManager.createHideballItem());
+            }
+        }
+
         timer.startTimer(teamManager.getOni());//スタート処理呼び出し
 
 

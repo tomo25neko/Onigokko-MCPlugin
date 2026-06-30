@@ -1,4 +1,4 @@
-package com.github.onigokko.Event;
+package com.github.onigokko.event;
 
 import com.github.onigokko.games.GameManager;
 import com.github.onigokko.games.GameModeManager;

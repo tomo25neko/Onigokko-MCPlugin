@@ -1,4 +1,4 @@
-package com.github.onigokko.Event;
+package com.github.onigokko.event;
 
 
 import com.github.onigokko.Onigokko;
@@ -50,10 +50,10 @@ public record PlayerConnection(ScoreboardManager sbManager, TeamManager teamMana
 
         // 1 tick 遅延して正しい人数を取得
         Bukkit.getScheduler().runTaskLater(Onigokko.getInstance(), () ->
-                sbManager.setScore(
-                        ChatColor.GREEN + "総プレイヤー： %d人",
-                        Bukkit.getOnlinePlayers().size(),
-                        5),
+                        sbManager.setScore(
+                                ChatColor.GREEN + "総プレイヤー： %d人",
+                                Bukkit.getOnlinePlayers().size(),
+                                5),
                 1L);
     }
 }

@@ -9,11 +9,11 @@ import org.bukkit.scoreboard.Team;
 
 public class TeamManager {
 
-    private Team oni;
-    private Team nige;
     private final ScoreboardManager sbManager;
     private final Scoreboard scoreboard;
     private final OniManager oniManager;
+    private Team oni;
+    private Team nige;
 
     public TeamManager(ScoreboardManager scoreboardManager, OniManager oniManager) {
         this.sbManager = scoreboardManager;
@@ -61,10 +61,10 @@ public class TeamManager {
     public void setTeamName(Team team, String teamName) {
         if (team == nige) {
             team.setDisplayName(ChatColor.DARK_AQUA + "[" + teamName + "]" + ChatColor.GREEN + "チーム： %d人");//逃げ
-            team.setPrefix(ChatColor.DARK_AQUA + "["+ teamName +"] "); //プレイヤーの名前の先頭にチーム名を追加
+            team.setPrefix(ChatColor.DARK_AQUA + "[" + teamName + "] "); //プレイヤーの名前の先頭にチーム名を追加
         } else {
             team.setDisplayName(ChatColor.RED + "[" + teamName + "]" + ChatColor.GREEN + "チーム：    %d人");//鬼
-            team.setPrefix(ChatColor.RED + "["+ teamName +"] "); //プレイヤーの名前の先頭にチーム名を追加
+            team.setPrefix(ChatColor.RED + "[" + teamName + "] "); //プレイヤーの名前の先頭にチーム名を追加
         }
 
     }

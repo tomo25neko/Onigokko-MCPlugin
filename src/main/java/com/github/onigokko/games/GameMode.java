@@ -15,10 +15,6 @@ public enum GameMode {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
     //ゲームモードのリストを返す
     public static List<String> getModeList() {
         List<String> modeList = new ArrayList<>();
@@ -44,5 +40,9 @@ public enum GameMode {
             }
         }
         return null; // 該当なし
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }

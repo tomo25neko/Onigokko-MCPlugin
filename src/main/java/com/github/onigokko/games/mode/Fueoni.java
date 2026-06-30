@@ -11,19 +11,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 
-public class Fueoni implements GameModeManager {
-
-    private final TeamManager teamManager;
-    private final ScoreboardManager sbManager;
-    private final StartPointManager spManager;
-    private final GameManager gameManager;
-
-    public Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager, GameManager gameManager) {
-        this.teamManager = teamManager;
-        this.sbManager = sbManager;
-        this.spManager = spManager;
-        this.gameManager = gameManager;
-    }
+public record Fueoni(TeamManager teamManager, ScoreboardManager sbManager, StartPointManager spManager,
+                     GameManager gameManager) implements GameModeManager {
 
     @Override
     public void setup() {

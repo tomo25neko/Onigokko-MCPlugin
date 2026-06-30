@@ -45,7 +45,6 @@ public class ScoreboardManager {
         removeScore(key);
 
         objective.getScore(newEntry).setScore(value); // スコアの設定と順番の設定
-
     }
 
     // スコアの削除処理（ChatColorを除去して比較）
@@ -84,5 +83,6 @@ public class ScoreboardManager {
             player.setScoreboard(emptyBoard);
         }
     }
+
 
 }

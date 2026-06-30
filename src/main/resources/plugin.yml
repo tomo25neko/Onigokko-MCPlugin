@@ -2,6 +2,8 @@ name: Onigokko
 version: '1.2.0'
 main: com.github.onigokko.Onigokko
 api-version: '1.20'
+depend:
+  - packetevents
 authors: [ 25tomo ]
 description: spigot鬼ごプラグイン
 
@@ -30,3 +32,6 @@ commands:
   returntostart:
     description: スタート地点に戻るコマンド（鬼チームのみ）
     usage: /returntostart
+  sethideballduration:
+    description: 影玉の持続時間を設定するコマンド（0で無効化）
+    usage: /sethideballduration <秒数>
